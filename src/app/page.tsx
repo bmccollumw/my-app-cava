@@ -1,192 +1,176 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-
-type MediaItem =
-  | { type: "video"; src: string }
-  | { type: "image"; src: string; alt?: string };
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 
 export default function Page() {
-  // Put your own files in /public (e.g. /public/hero1.mp4, /public/hero2.jpg)
-  const media: MediaItem[] = useMemo(
-    () => [
-      { type: "video", src: "/hero1.mp4" },
-      { type: "image", src: "/hero2.jpg", alt: "Hero image 2" },
-      { type: "video", src: "/hero3.mp4" },
-    ],
-    []
-  );
+  const videos = useMemo(() => ["/city/1.mp4", "/city/2.mp4", "/city/3.mp4"], []);
 
-  // Rotate media
-  const [idx, setIdx] = useState(0);
-  const [fadeIn, setFadeIn] = useState(true);
-
-  useEffect(() => {
-    if (media.length <= 1) return;
-
-    const interval = setInterval(() => {
-      // fade out, swap, fade in
-      setFadeIn(false);
-      setTimeout(() => {
-        setIdx((v) => (v + 1) % media.length);
-        setFadeIn(true);
-      }, 350);
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, [media.length]);
-
-  // Menu (top-right)
+  // Menu state
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Unique mask id (avoids collisions if component re-renders)
-  const maskId = "cavazos-mask";
+  // Video crossfade state (always cityscapes, always moving)
+  const [active, setActive] = useState(0);
+  const [fadeToB, setFadeToB] = useState(false);
+
+  // Close menu on outside click / ESC
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setMenuOpen(false);
+    }
+    function onMouseDown(e: MouseEvent) {
+      if (!menuRef.current) return;
+      if (!menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("mousedown", onMouseDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("mousedown", onMouseDown);
+    };
+  }, []);
+
+  // Rotate cityscape videos forever (optional). If you want ONE video only,
+  // set videos to ["/city/1.mp4"] and this effect will do nothing.
+  useEffect(() => {
+    if (videos.length <= 1) return;
+
+    const interval = setInterval(() => {
+      // start fade
+      setFadeToB(true);
+
+      // after fade, switch active and fade back
+      const t = setTimeout(() => {
+        setActive((prev) => (prev + 1) % videos.length);
+        setFadeToB(false);
+      }, 800);
+
+      return () => clearTimeout(t);
+    }, 9000);
+
+    return () => clearInterval(interval);
+  }, [videos.length]);
+
+  const srcA = videos[active];
+  const srcB = videos.length > 1 ? videos[(active + 1) % videos.length] : videos[active];
 
   return (
-    <main className="relative min-h-screen w-full overflow-hidden bg-blue-700">
-      {/* TOP RIGHT MENU */}
-      <div className="absolute right-0 top-0 z-30 p-4 sm:p-6">
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setMenuOpen((v) => !v)}
-            className="inline-flex items-center gap-2 rounded-xl bg-white/15 px-4 py-2 text-sm font-semibold text-white backdrop-blur hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/60"
-            aria-haspopup="menu"
-            aria-expanded={menuOpen}
-          >
-            Menu <span aria-hidden>☰</span>
-          </button>
+    <main className="min-h-screen w-full bg-[#1f4fe0] overflow-hidden">
+      {/* Top-right menu */}
+      <div className="fixed top-4 right-4 z-50" ref={menuRef}>
+        <button
+          onClick={() => setMenuOpen((v) => !v)}
+          className="flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-white backdrop-blur hover:bg-white/15 transition"
+          aria-haspopup="menu"
+          aria-expanded={menuOpen}
+        >
+          <span className="text-sm font-semibold">Menu</span>
+          <span className="text-lg leading-none">≡</span>
+        </button>
 
-          {menuOpen && (
-            <div
-              role="menu"
-              className="absolute right-0 mt-2 w-44 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black/10"
-            >
-              <Link
-                href="/about"
-                role="menuitem"
-                className="block px-4 py-3 text-sm hover:bg-gray-50"
-                onClick={() => setMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link
-                href="/work"
-                role="menuitem"
-                className="block px-4 py-3 text-sm hover:bg-gray-50"
-                onClick={() => setMenuOpen(false)}
-              >
-                Work
-              </Link>
-              <Link
-                href="/contact"
-                role="menuitem"
-                className="block px-4 py-3 text-sm hover:bg-gray-50"
-                onClick={() => setMenuOpen(false)}
-              >
-                Contact
-              </Link>
-            </div>
-          )}
-        </div>
+        {menuOpen && (
+          <div
+            role="menu"
+            className="mt-2 w-48 overflow-hidden rounded-2xl border border-white/20 bg-[#0b1b4a]/70 text-white shadow-xl backdrop-blur"
+          >
+            <MenuItem label="Home" href="/" />
+            <MenuItem label="About" href="/about" />
+            <MenuItem label="Work" href="/work" />
+            <MenuItem label="Contact" href="/contact" />
+          </div>
+        )}
       </div>
 
-      {/* MEDIA LAYER (this is what will show through the letters) */}
-      <div className="absolute inset-0 z-0">
-        <div
-          className={`absolute inset-0 transition-opacity duration-500 ${
-            fadeIn ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          {media[idx]?.type === "video" ? (
+      {/* Centered title */}
+      <div className="min-h-screen w-full grid place-items-center px-3">
+        <HeroMaskedVideoText text="CAVAZOS" srcA={srcA} srcB={srcB} fadeToB={fadeToB} />
+      </div>
+    </main>
+  );
+}
+
+function MenuItem({ label, href }: { label: string; href: string }) {
+  return (
+    <a
+      role="menuitem"
+      href={href}
+      className="block px-4 py-3 text-sm hover:bg-white/10 transition"
+    >
+      {label}
+    </a>
+  );
+}
+
+function HeroMaskedVideoText({
+  text,
+  srcA,
+  srcB,
+  fadeToB,
+}: {
+  text: string;
+  srcA: string;
+  srcB: string;
+  fadeToB: boolean;
+}) {
+  // SSR-safe stable id (fixes hydration error)
+  const maskId = useId();
+
+  return (
+    <div className="w-[96vw] max-w-[1700px]">
+      <svg viewBox="0 0 1600 520" className="w-full h-auto select-none" aria-label={text}>
+        <defs>
+          <mask id={maskId}>
+            <rect width="1600" height="520" fill="black" />
+            <text
+              x="50%"
+              y="62%"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fill="white"
+              style={{
+                fontFamily:
+                  'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial',
+                fontWeight: 900,
+                fontSize: 290, // taller letters
+                letterSpacing: 26,
+              }}
+            >
+              {text}
+            </text>
+          </mask>
+        </defs>
+
+        {/* Videos clipped to text */}
+        <foreignObject x="0" y="0" width="1600" height="520" mask={`url(#${maskId})`}>
+          <div style={{ width: "100%", height: "100%", position: "relative" }}>
             <video
-              key={media[idx].src}
-              className="h-full w-full object-cover"
+              src={srcA}
               autoPlay
               muted
               loop
               playsInline
-              preload="metadata"
-            >
-              <source src={media[idx].src} />
-            </video>
-          ) : (
-            <Image
-              key={media[idx].src}
-              src={media[idx].src}
-              alt={media[idx].alt ?? "Background"}
-              fill
-              priority
-              className="object-cover"
+              preload="auto"
+              className="absolute inset-0 w-full h-full object-cover"
             />
-          )}
-        </div>
-      </div>
 
-      {/* BLUE OVERLAY PUNCHED OUT BY TEXT (SVG MASK) */}
-      <svg
-        className="absolute inset-0 z-10 h-full w-full"
-        viewBox="0 0 1000 1000"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <defs>
-          {/* Mask: white = show blue overlay, black = punch hole (show video behind) */}
-          <mask id={maskId}>
-            <rect x="0" y="0" width="1000" height="1000" fill="white" />
+            {/* Crossfade layer */}
+            <video
+              src={srcB}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+                fadeToB ? "opacity-100" : "opacity-0"
+              }`}
+            />
 
-            {/* Taller letters: scaleY increases letter height */}
-            <g transform="translate(500 520) scale(1 1.35)">
-              <text
-                x="0"
-                y="0"
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fontFamily="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial"
-                fontWeight="800"
-                fontSize="140"
-                letterSpacing="35"
-                fill="black"
-              >
-                CAVAZOS
-              </text>
-            </g>
-          </mask>
-        </defs>
-
-        {/* This is your full-screen blue “sheet” */}
-        <rect
-          x="0"
-          y="0"
-          width="1000"
-          height="1000"
-          fill="rgb(29, 78, 216)" /* blue-700-ish */
-          mask={`url(#${maskId})`}
-        />
+            {/* Optional: makes the video feel more “rich/opaque” inside the letters */}
+            <div className="absolute inset-0 pointer-events-none bg-black/15" />
+          </div>
+        </foreignObject>
       </svg>
-
-      {/* TEXT OUTLINE ON TOP (so letters read clearly) */}
-      <div className="pointer-events-none absolute inset-0 z-20 grid place-items-center">
-        <div className="relative">
-          <h1
-            className="
-              select-none text-center font-extrabold uppercase
-              tracking-[0.35em] text-transparent
-            "
-            style={{
-              // Taller letters (extra boost on top of SVG scale if you want)
-              transform: "scaleY(1.12)",
-              WebkitTextStroke: "2px rgba(255,255,255,0.95)",
-            }}
-          >
-            <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl">
-              CAVAZOS
-            </span>
-          </h1>
-        </div>
-      </div>
-    </main>
+    </div>
   );
 }
