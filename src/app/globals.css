@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-black text-white antialiased;
+  }
+
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
