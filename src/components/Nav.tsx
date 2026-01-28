@@ -16,6 +16,7 @@ const NAV: NavItem[] = [
 export default function Nav() {
   const [open, setOpen] = useState(false)
 
+  // Close on ESC
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(false)
@@ -24,6 +25,7 @@ export default function Nav() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
 
+  // Lock body scroll
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => {
@@ -33,29 +35,21 @@ export default function Nav() {
 
   return (
     <>
-      {/* Menu/Close Button (top-right) */}
-      <div className="fixed top-0 right-0 z-50 p-6">
+      {/* Menu / Close  */}
+      <div className="fixed top-0 right-0 z-[60] p-6">
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="top-menu"
+          aria-label={open ? 'Close menu' : 'Open menu'}
           className={cn(
-            'inline-flex items-center gap-2 rounded-xl',
-            // ✅ when menu is open, invert styling so it works on white sheet
-            open
-              ? 'border border-black/15 bg-black/5 text-black hover:bg-black/10'
-              : 'border border-white/20 bg-white/10 text-white hover:bg-white/15',
-            'backdrop-blur transition'
+            'text-2xl md:text-3xl font-bold lowercase transition-colors',
+            open ? 'text-blue-600' : 'text-white',
+            'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
           )}
         >
-          {/* ✅ label switches */}
-          <span className="text-sm font-medium">{open ? 'Close' : 'Menu'}</span>
-
-          {/* ✅ icon switches */}
-          <span aria-hidden className="text-lg leading-none">
-            {open ? '×' : '☰'}
-          </span>
+          {open ? 'close' : 'menu'}
         </button>
       </div>
 
@@ -78,46 +72,31 @@ export default function Nav() {
         aria-modal="true"
         className={cn(
           'fixed left-0 top-0 z-50 w-full',
-          // ✅ full width + half height on md+, full height on mobile
           'h-[100vh] md:h-[50vh]',
-          // ✅ white background
-          'bg-white text-black border-b border-black/10',
+          'bg-white',
           'transform transition-transform duration-300 ease-out',
           open ? 'translate-y-0' : '-translate-y-full'
         )}
       >
-        <div className="mx-auto flex h-full max-w-6xl flex-col px-6 py-6">
-          {/* ✅ remove the separate Close button (menu button stays top-right) */}
-          <div className="flex items-center justify-between">
-            <div className="text-black/70 text-sm tracking-widest">NAVIGATION</div>
-            <div className="text-xs text-black/40">Press ESC to close</div>
-          </div>
-
-          <nav className="mt-8 grid gap-3 md:grid-cols-2">
+        <div className="mx-auto flex h-full max-w-6xl flex-col px-6 py-10">
+          <nav className="mt-20 grid gap-6 md:grid-cols-2">
             {NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  'group rounded-2xl border border-black/10 bg-black/[0.03] p-5 text-black',
-                  'hover:bg-black/[0.06] transition'
+                  'group p-6 md:p-7',
+                  'transition hover:bg-black/[0.03]',
+                  'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
                 )}
               >
-                <div className="flex items-center justify-between">
-                  <span className="text-xl md:text-2xl font-semibold">{item.label}</span>
-                  <span className="text-black/40 group-hover:text-black transition">→</span>
-                </div>
-                <div className="mt-2 text-sm text-black/50">
-                  Go to {item.label.toLowerCase()}
-                </div>
+                <span className="block text-3xl md:text-4xl font-bold text-blue-600">
+                  {item.label}
+                </span>
               </Link>
             ))}
           </nav>
-
-          <div className="mt-auto pt-6 text-xs text-black/40">
-            Click outside the menu to close.
-          </div>
         </div>
       </div>
     </>
