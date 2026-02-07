@@ -15,7 +15,7 @@ const NAV: NavItem[] = [
   { label: 'contact', href: '/contact' },
 ]
 
-const CERTS = ['certification one', 'certification two', 'certification three', 'certification four']
+const CERTS = ['acdbe', 'mbe', 'w/dbe', 'hub']
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
