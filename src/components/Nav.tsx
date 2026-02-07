@@ -39,8 +39,8 @@ export default function Nav() {
 
   return (
     <>
-      {/* Menu / Close button */}
-      <div className="fixed top-0 right-0 z-[60] p-6">
+      {/* Menu / Close button (always above everything) */}
+      <div className="fixed top-0 right-0 z-[70] p-6">
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
@@ -60,7 +60,7 @@ export default function Nav() {
       {/* Backdrop */}
       <div
         className={cn(
-          'fixed inset-0 z-40 transition-opacity',
+          'fixed inset-0 z-40 transition-opacity duration-300',
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         )}
         aria-hidden="true"
@@ -69,41 +69,31 @@ export default function Nav() {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      {/* FULL-SCREEN menu */}
+      {/* FULL-SCREEN menu sheet */}
       <div
         id="top-menu"
         role="dialog"
         aria-modal="true"
         className={cn(
           'fixed inset-0 z-50 bg-white',
-          'transform transition-transform duration-300 ease-out',
-          open ? 'translate-y-0' : '-translate-y-full'
+          'transition-all duration-300 ease-out',
+          open ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none'
         )}
       >
-        <div className="mx-auto h-full max-w-6xl px-6 py-10">
-          {/* Two-column layout */}
-          <div className="grid h-full grid-cols-1 gap-10 md:grid-cols-[1fr_320px]">
+        {/* Make content scrollable on small screens so certs never clip */}
+        <div className="mx-auto h-full max-w-6xl overflow-y-auto px-6 py-10">
+          <div className="grid min-h-full grid-cols-1 gap-10 md:grid-cols-[1fr_320px]">
             {/* LEFT: nav */}
             <nav className="pt-20 md:pt-24">
-              <ul className="space-y-6 md:space-y-7">
+              <ul className="space-y-6 md:space-y-8">
                 {NAV.map((item) => (
                   <li key={`${item.href}-${item.label}`}>
                     <Link
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className={cn(
-                        'group inline-block',
-                        'focus:outline-none'
-                      )}
+                      className="group inline-block focus:outline-none"
                     >
-                      <span
-                        className={cn(
-                          'block font-semibold tracking-tight',
-                          'text-4xl md:text-5xl',
-                          'text-[#9E4A46]',
-                          'transition-opacity group-hover:opacity-70'
-                        )}
-                      >
+                      <span className="block text-4xl md:text-5xl font-semibold tracking-tight text-[#9E4A46] transition-opacity group-hover:opacity-70">
                         {item.label}
                       </span>
                     </Link>
@@ -113,38 +103,36 @@ export default function Nav() {
             </nav>
 
             {/* RIGHT: logo + certs + offices */}
-            <aside className="relative pt-6 md:pt-24">
-              {/* Logo icon */}
-              <div className="mb-10 flex justify-start md:justify-end">
-                {/* Replace with your actual logo icon path */}
+            <aside className="relative pb-10 md:pb-0">
+              {/* Logo icon top-right of right column */}
+              <div className="flex justify-start md:justify-end pt-2 md:pt-24">
                 <img
                   src="/icon.png"
-                  alt="Logo"
-                  className="mb-16 h-28 w-28 md:h-32 md:w-32 lg:h-40 lg:w-40"
+                  alt="Cavazos logo icon"
+                  className="h-28 w-28 md:h-36 md:w-36 lg:h-44 lg:w-44"
                 />
               </div>
 
-              {/* Bottom-right block */}
-              <div className="md:absolute md:bottom-10 md:right-0">
-                <div className="text-right">
-                  <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-black/50">
-                    certifications
-                  </h3>
+              {/* On mobile: normal flow (so it always shows fully)
+                  On desktop: pin to bottom-right */}
+              <div className="mt-10 md:absolute md:bottom-10 md:right-0 md:text-right">
+                <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-black/40">
+                  certifications
+                </h3>
 
-                  <ul className="space-y-2">
-                    {CERTS.map((c) => (
-                      <li key={c} className="text-base md:text-lg font-medium text-[#9E4A46]">
-                        {c}
-                      </li>
-                    ))}
-                  </ul>
+                <ul className="space-y-2">
+                  {CERTS.map((c) => (
+                    <li key={c} className="text-sm md:text-base font-medium text-[#9E4A46]">
+                      {c}
+                    </li>
+                  ))}
+                </ul>
 
-                  <div className="mt-8 text-sm font-semibold uppercase tracking-[0.18em] text-black/50">
-                    offices
-                  </div>
-                  <div className="mt-2 text-base md:text-lg font-semibold text-[#9E4A46]">
-                    NYC &amp; HOUSTON
-                  </div>
+                <div className="mt-8 text-xs font-semibold uppercase tracking-[0.25em] text-black/40">
+                  offices
+                </div>
+                <div className="mt-2 text-sm md:text-base font-semibold text-[#9E4A46]">
+                  NYC &amp; HOUSTON
                 </div>
               </div>
             </aside>
