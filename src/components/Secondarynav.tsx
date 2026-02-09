@@ -19,15 +19,13 @@ const NAV: NavItem[] = [
 const CERTS = ['acdbe', 'mbe', 'w/dbe', 'hub']
 
 function titleFromPath(pathname: string) {
-  // normalize
   const path = pathname.split('?')[0].split('#')[0]
   if (path === '/') return 'home'
 
-  // take last segment
   const seg = path.split('/').filter(Boolean).at(-1) ?? ''
-  // simple prettifier: "joint-venture" -> "joint venture"
-  return seg.replace(/[-_]/g, ' ')
+  return seg.replace(/[-_]/g, ' ').toLowerCase()
 }
+
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
