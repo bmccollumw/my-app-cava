@@ -51,7 +51,7 @@ export default function NavNotHome() {
   return (
     <>
       {/* TOP BAR (sits below the menu overlay when open) */}
-      <header className="fixed top-0 left-0 right-0 z-[60] px-6 pt-8 pb-4">
+      <header className="fixed top-0 left-0 right-0 z-[60] px-6 pt-12 pb-4">
         <div className="relative flex items-center justify-between text-white">
           {/* Left: dynamic lowercase page title */}
           <div className="text-2xl md:text-3xl font-bold lowercase">{pageTitle}</div>
