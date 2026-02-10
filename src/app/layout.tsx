@@ -1,4 +1,5 @@
 import './globals.css'
+import PageFadeIn from '@/components/PageFadeIn'
 
 export default function RootLayout({
   children,
@@ -8,7 +9,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col">
-        <main className="flex-1">{children}</main>
+        <PageFadeIn>
+          {children}
+        </PageFadeIn>
       </body>
     </html>
   )
