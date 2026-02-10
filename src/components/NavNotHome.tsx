@@ -21,13 +21,11 @@ const CERTS = ['acdbe', 'mbe', 'w/dbe', 'hub']
 function titleFromPath(pathname: string) {
   const path = pathname.split('?')[0].split('#')[0]
   if (path === '/') return 'home'
-
   const seg = path.split('/').filter(Boolean).at(-1) ?? ''
   return seg.replace(/[-_]/g, ' ').toLowerCase()
 }
 
-
-export default function Nav() {
+export default function NavNotHome() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
 
@@ -42,7 +40,7 @@ export default function Nav() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
 
-  // Lock body scroll
+  // Lock body scroll when menu open
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => {
@@ -52,52 +50,48 @@ export default function Nav() {
 
   return (
     <>
-      {/* TOP BAR (always visible) */}
-      <div className="fixed top-0 left-0 right-0 z-[70] px-6 py-5">
-        <div className="relative flex items-center justify-between">
-          {/* Left: current page title */}
-          <div className="text-white/90 text-xs md:text-sm font-semibold uppercase tracking-[0.25em]">
-            {pageTitle}
-          </div>
+      {/* TOP BAR (sits below the menu overlay when open) */}
+      <header className="fixed top-0 left-0 right-0 z-[60] px-6 pt-8 pb-4">
+        <div className="relative flex items-center justify-between text-white">
+          {/* Left: dynamic lowercase page title */}
+          <div className="text-2xl md:text-3xl font-bold lowercase">{pageTitle}</div>
 
-          {/* Center: logo icon (clickable) */}
-          <div className="absolute left-1/2 -translate-x-1/2">
+          {/* Center: logo centered, won’t block clicks */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <Link
               href="/"
               aria-label="Go to home"
-              onClick={() => setOpen(false)}
-              className="inline-flex items-center justify-center"
+              className="pointer-events-auto inline-flex"
             >
               <img
                 src="/icon.png"
                 alt="Cavazos logo"
-                className="h-10 w-10 md:h-12 md:w-12"
+                className="h-14 w-14 md:h-18 md:w-18 lg:h-26 lg:w-26"
               />
             </Link>
           </div>
 
-          {/* Right: menu/close button */}
+          {/* Right: menu toggle (only meaningful when menu is closed) */}
           <button
             type="button"
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => setOpen(true)}
             aria-expanded={open}
-            aria-controls="top-menu"
-            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-controls="secondary-menu"
+            aria-label="Open menu"
             className={cn(
-              'text-2xl md:text-3xl font-bold lowercase transition-colors',
-              open ? 'text-[#9E4A46]' : 'text-white',
-              'focus:outline-none'
+              'text-2xl md:text-3xl font-bold lowercase transition-opacity',
+              open ? 'opacity-0 pointer-events-none' : 'opacity-100'
             )}
           >
-            {open ? 'close' : 'menu'}
+            menu
           </button>
         </div>
-      </div>
+      </header>
 
-      {/* Backdrop */}
+      {/* Backdrop (below menu, above page content) */}
       <div
         className={cn(
-          'fixed inset-0 z-40 transition-opacity duration-300',
+          'fixed inset-0 z-[80] transition-opacity duration-300',
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         )}
         aria-hidden="true"
@@ -106,28 +100,41 @@ export default function Nav() {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      {/* FULL-SCREEN menu sheet */}
+      {/* FULL-SCREEN MENU (above header so logo is not visible/clickable) */}
       <div
-        id="top-menu"
+        id="secondary-menu"
         role="dialog"
         aria-modal="true"
         className={cn(
-          'fixed inset-0 z-50 bg-white',
-          'transition-all duration-300 ease-out',
-          open ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none'
+          'fixed inset-0 z-[100] bg-white transition-all duration-300 ease-out',
+          open
+            ? 'translate-y-0 opacity-100 pointer-events-auto'
+            : '-translate-y-full opacity-0 pointer-events-none'
         )}
       >
+        {/* Close button INSIDE the menu overlay (always clickable/visible) */}
+        <div className="fixed top-0 right-0 z-[110] p-6">
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            aria-label="Close menu"
+            className="text-2xl md:text-3xl font-bold lowercase text-[#9E4A46]"
+          >
+            close
+          </button>
+        </div>
+
         <div className="mx-auto h-full max-w-6xl overflow-y-auto px-6 py-10">
           <div className="grid min-h-full grid-cols-1 gap-10 md:grid-cols-[1fr_320px]">
-            {/* LEFT: nav */}
+            {/* LEFT NAV LINKS */}
             <nav className="pt-20 md:pt-24">
               <ul className="space-y-6 md:space-y-8">
                 {NAV.map((item) => (
-                  <li key={`${item.href}-${item.label}`}>
+                  <li key={item.href}>
                     <Link
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className="group inline-block focus:outline-none"
+                      className="group inline-block"
                     >
                       <span className="block text-4xl md:text-5xl font-semibold tracking-tight text-[#9E4A46] transition-opacity group-hover:opacity-70">
                         {item.label}
@@ -138,7 +145,7 @@ export default function Nav() {
               </ul>
             </nav>
 
-            {/* RIGHT: logo + certs + offices */}
+            {/* RIGHT INFO COLUMN */}
             <aside className="relative pb-10 md:pb-0">
               <div className="flex justify-start md:justify-end pt-2 md:pt-24">
                 <img
@@ -164,6 +171,7 @@ export default function Nav() {
                 <div className="mt-8 text-xs font-semibold uppercase tracking-[0.25em] text-black/40">
                   offices
                 </div>
+
                 <div className="mt-2 text-sm md:text-base font-semibold text-[#9E4A46]">
                   NYC &amp; HOUSTON
                 </div>

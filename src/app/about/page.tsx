@@ -1,45 +1,72 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import NavNotHome from '@/components/NavNotHome'
+
 export default function AboutPage() {
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    // next paint -> triggers transition
+    const t = requestAnimationFrame(() => setReady(true))
+    return () => cancelAnimationFrame(t)
+  }, [])
+
   return (
-    <main className="relative min-h-screen w-full overflow-hidden">
+    <main className="relative min-h-screen w-full overflow-hidden text-white">
+      <NavNotHome />
+
       {/* Background image */}
       <div
-        className="absolute inset-0 -z-10 bg-cover bg-center"
+        className="absolute inset-0 -z-20 bg-cover bg-center"
         style={{ backgroundImage: "url('/about-backdrop.jpg')" }}
       />
 
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 -z-10 bg-black/55" />
+      {/* Dark overlay */}
+      <div className="absolute inset-0 -z-10 bg-black/60" />
 
-      {/* Content wrapper */}
-      <section className="mx-auto max-w-6xl px-6 pt-28 pb-20 md:pt-32 text-white">
-        <h1 className="text-4xl md:text-6xl font-semibold tracking-tight">
-          About
-        </h1>
+      {/* Content: left-aligned container */}
+      <section className="relative pt-40 pb-32">
+        <div className="ml-6 md:ml-12 lg:ml-16">
+          {/* HERO (fade in) */}
+          <p
+            className={[
+              'max-w-4xl',
+              'text-3xl md:text-5xl',
+              'font-light leading-tight',
+              'text-white/95',
+              'transition-all duration-700 ease-out',
+              ready ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3',
+            ].join(' ')}
+          >
+            Cavazos Communications was established in 2002 as a firm dedicated to
+            reaching multi-cultural audiences and under-served communities through
+            focused engagement and communications utilizing localization and
+            grassroots outreach on a national, regional and local level.
+          </p>
 
-        <p className="mt-6 max-w-2xl text-base md:text-lg text-white/80 leading-relaxed">
-          Sample content for now. This section will explain who we are, what we do,
-          and the value we bring to partners.
-        </p>
+          {/* BODY */}
+          <div className="mt-12 max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-white/80">
+            <p>
+              Cavazos is the Joint Venture Partner and local agency of record for the
+              Houston Airport Systems (HAS) and JCDecaux North America for
+              Out-of-Home Media advertising sales at Bush (IAH) and Hobby (HOU)
+              Airports.
+            </p>
 
-        <div className="mt-12 grid gap-8 md:grid-cols-2">
-          <div className="rounded-2xl bg-white/10 p-8 backdrop-blur-sm">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/70">
-              focus
-            </h2>
-            <ul className="mt-4 space-y-2 text-white/85">
-              <li>• joint venture partnerships</li>
-              <li>• marketing solutions</li>
-              <li>• diversity outreach</li>
-              <li>• staffing</li>
-            </ul>
-          </div>
+            <p>
+              We offer a broad range of public relations, public affairs, advertising,
+              brand management, marketing services, and talent acquisition, with
+              special expertise in integrating messages in-culture and finding a
+              common ground for engagement.
+            </p>
 
-          <div className="rounded-2xl bg-white/10 p-8 backdrop-blur-sm">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/70">
-              approach
-            </h2>
-            <p className="mt-4 text-white/85 leading-relaxed">
-              We align on goals, build a clear plan, move fast, and measure outcomes.
+            <p>
+              Cavazos also specializes in talent acquisition for various staffing
+              needs. We offer opportunities to professionals for full-time and
+              temporary positions in analytical research, quality assurance,
+              accounting, data analysis, auditing, and healthcare—providing
+              experienced professionals who consistently meet compliance deadlines.
             </p>
           </div>
         </div>
