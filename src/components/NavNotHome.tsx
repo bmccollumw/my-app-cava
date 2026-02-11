@@ -5,13 +5,22 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/cn'
 
-type NavItem = { label: string; href: string }
+type NavItem = {
+  label: string
+  href?: string
+  children?: { label: string; href: string }[]
+}
 
 const NAV: NavItem[] = [
-  { label: 'joint venture partnerships', href: '/jvp' },
+  {
+    label: 'joint venture partnerships',
+    children: [
+      { label: 'airport advertising', href: '/airport-advertising' },
+      { label: 'staffing', href: '/staffing' },
+    ],
+  },
   { label: 'marketing solutions', href: '/marketing' },
   { label: 'diversity outreach', href: '/diversity' },
-  { label: 'staffing', href: '/staffing' },
   { label: 'about', href: '/about' },
   { label: 'contact', href: '/contact' },
 ]
@@ -27,6 +36,7 @@ function titleFromPath(pathname: string) {
 
 export default function NavNotHome() {
   const [open, setOpen] = useState(false)
+  const [jvpOpen, setJvpOpen] = useState(false)
   const pathname = usePathname()
 
   const pageTitle = useMemo(() => titleFromPath(pathname), [pathname])
@@ -48,6 +58,11 @@ export default function NavNotHome() {
     }
   }, [open])
 
+  // Close submenu whenever main menu closes
+  useEffect(() => {
+    if (!open) setJvpOpen(false)
+  }, [open])
+
   return (
     <>
       {/* TOP BAR (sits below the menu overlay when open) */}
@@ -58,11 +73,7 @@ export default function NavNotHome() {
 
           {/* Center: logo centered, won’t block clicks */}
           <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <Link
-              href="/"
-              aria-label="Go to home"
-              className="pointer-events-auto inline-flex"
-            >
+            <Link href="/" aria-label="Go to home" className="pointer-events-auto inline-flex">
               <img
                 src="/icon.png"
                 alt="Cavazos logo"
@@ -71,7 +82,7 @@ export default function NavNotHome() {
             </Link>
           </div>
 
-          {/* Right: menu toggle (only meaningful when menu is closed) */}
+          {/* Right: menu toggle */}
           <button
             type="button"
             onClick={() => setOpen(true)}
@@ -88,10 +99,10 @@ export default function NavNotHome() {
         </div>
       </header>
 
-      {/* Backdrop (below menu, above page content) */}
+      {/* Backdrop */}
       <div
         className={cn(
-          'fixed inset-0 z-[80] transition-opacity duration-300',
+          'fixed inset-0 z-[80] transition-opacity duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         )}
         aria-hidden="true"
@@ -100,19 +111,20 @@ export default function NavNotHome() {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      {/* FULL-SCREEN MENU (above header so logo is not visible/clickable) */}
+      {/* FULL-SCREEN MENU */}
       <div
         id="secondary-menu"
         role="dialog"
         aria-modal="true"
         className={cn(
-          'fixed inset-0 z-[100] bg-white transition-all duration-300 ease-out',
+          'fixed inset-0 z-[100] bg-white',
+          'transition-all duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
           open
             ? 'translate-y-0 opacity-100 pointer-events-auto'
             : '-translate-y-full opacity-0 pointer-events-none'
         )}
       >
-        {/* Close button INSIDE the menu overlay (always clickable/visible) */}
+        {/* Close button INSIDE the menu overlay */}
         <div className="fixed top-0 right-0 z-[110] p-6">
           <button
             type="button"
@@ -126,22 +138,105 @@ export default function NavNotHome() {
 
         <div className="mx-auto h-full max-w-6xl overflow-y-auto px-6 py-10">
           <div className="grid min-h-full grid-cols-1 gap-10 md:grid-cols-[1fr_320px]">
+
             {/* LEFT NAV LINKS */}
             <nav className="pt-20 md:pt-24">
-              <ul className="space-y-6 md:space-y-8">
-                {NAV.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      onClick={() => setOpen(false)}
-                      className="group inline-block"
-                    >
-                      <span className="block text-4xl md:text-5xl font-semibold tracking-tight text-[#9E4A46] transition-opacity group-hover:opacity-70">
-                        {item.label}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
+              <ul className="space-y-8 md:space-y-10">
+                {NAV.map((item) => {
+                  const hasChildren = !!item.children?.length
+
+                  const Underline = () => (
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        'mt-4 block h-[2px] w-0 bg-[#9E4A46]',
+                        'opacity-0',
+                        'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+                        'group-hover:w-28 group-hover:opacity-100',
+                        'group-focus-visible:w-28 group-focus-visible:opacity-100'
+                      )}
+                    />
+                  )
+
+                  return (
+                    <li key={item.label}>
+                      {hasChildren ? (
+                        <div>
+                          <button
+                            type="button"
+                            onClick={() => setJvpOpen((v) => !v)}
+                            aria-expanded={jvpOpen}
+                            aria-controls="secondary-jvp-submenu"
+                            className={cn('group inline-block text-left focus:outline-none', 'py-1')}
+                          >
+                            <span className="block text-4xl md:text-5xl font-semibold tracking-tight text-[#9E4A46] transition-opacity group-hover:opacity-70">
+                              {item.label}
+                            </span>
+                            <Underline />
+                          </button>
+
+                          {/* Animated submenu */}
+                          <div
+                            id="secondary-jvp-submenu"
+                            className={cn(
+                              'mt-5 pl-3 md:pl-4 overflow-hidden',
+                              'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+                              jvpOpen
+                                ? 'max-h-56 opacity-100 translate-y-0'
+                                : 'max-h-0 opacity-0 -translate-y-1'
+                            )}
+                          >
+                            <div className="space-y-3">
+                              {item.children!.map((child) => (
+                                <Link
+                                  key={child.href}
+                                  href={child.href}
+                                  onClick={() => setOpen(false)}
+                                  className={cn('group block focus:outline-none', 'py-2')}
+                                >
+                                  <span className="inline-block text-2xl md:text-3xl font-semibold tracking-tight text-[#9E4A46] transition-all duration-300 group-hover:opacity-70 group-hover:translate-x-1 group-hover:tracking-wide">
+                                    {child.label}
+                                  </span>
+
+                                  <span
+                                    aria-hidden="true"
+                                    className={cn(
+                                      'mt-2 block h-[1px] w-0 bg-[#9E4A46]/70',
+                                      'opacity-0',
+                                      'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+                                      'group-hover:w-24 group-hover:opacity-100'
+                                    )}
+                                  />
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <Link
+                          href={item.href!}
+                          onClick={() => setOpen(false)}
+                          className="group inline-block focus:outline-none"
+                        >
+                          <span className="block text-4xl md:text-5xl font-semibold tracking-tight text-[#9E4A46] transition-opacity group-hover:opacity-70">
+                            {item.label}
+                          </span>
+
+                          <span
+                            aria-hidden="true"
+                            className={cn(
+                              'mt-4 block h-[2px] w-0 bg-[#9E4A46]',
+                              'opacity-0',
+                              'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+                              'group-hover:w-28 group-hover:opacity-100',
+                              'group-focus-visible:w-28 group-focus-visible:opacity-100'
+                            )}
+                          />
+                        </Link>
+                      )}
+                    </li>
+                  )
+                })}
               </ul>
             </nav>
 
@@ -177,6 +272,7 @@ export default function NavNotHome() {
                 </div>
               </div>
             </aside>
+
           </div>
         </div>
       </div>

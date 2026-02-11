@@ -4,13 +4,22 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/cn'
 
-type NavItem = { label: string; href: string }
+type NavItem = {
+  label: string
+  href?: string
+  children?: { label: string; href: string }[]
+}
 
 const NAV: NavItem[] = [
-  { label: 'joint venture partnerships', href: '/projects' },
+  {
+    label: 'joint venture partnerships',
+    children: [
+      { label: 'airport advertising', href: '/airport-advertising' },
+      { label: 'staffing', href: '/staffing' },
+    ],
+  },
   { label: 'marketing solutions', href: '/contact' },
   { label: 'diversity outreach', href: '/about' },
-  { label: 'staffing', href: '/projects' },
   { label: 'about', href: '/about' },
   { label: 'contact', href: '/contact' },
 ]
@@ -19,6 +28,7 @@ const CERTS = ['acdbe', 'mbe', 'w/dbe', 'hub']
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
+  const [jvpOpen, setJvpOpen] = useState(false)
 
   // Close on ESC
   useEffect(() => {
@@ -37,9 +47,14 @@ export default function Nav() {
     }
   }, [open])
 
+  // Close submenu whenever main menu closes
+  useEffect(() => {
+    if (!open) setJvpOpen(false)
+  }, [open])
+
   return (
     <>
-      {/* Menu / Close button (always above everything) */}
+      {/* Menu / Close button */}
       <div className="fixed top-0 right-0 z-[70] p-6">
         <button
           type="button"
@@ -60,7 +75,7 @@ export default function Nav() {
       {/* Backdrop */}
       <div
         className={cn(
-          'fixed inset-0 z-40 transition-opacity duration-300',
+          'fixed inset-0 z-40 transition-opacity duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         )}
         aria-hidden="true"
@@ -76,35 +91,135 @@ export default function Nav() {
         aria-modal="true"
         className={cn(
           'fixed inset-0 z-50 bg-white',
-          'transition-all duration-300 ease-out',
-          open ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none'
+          'transition-all duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+          open
+            ? 'translate-y-0 opacity-100 pointer-events-auto'
+            : '-translate-y-full opacity-0 pointer-events-none'
         )}
       >
-        {/* Make content scrollable on small screens so certs never clip */}
         <div className="mx-auto h-full max-w-6xl overflow-y-auto px-6 py-10">
           <div className="grid min-h-full grid-cols-1 gap-10 md:grid-cols-[1fr_320px]">
+
             {/* LEFT: nav */}
             <nav className="pt-20 md:pt-24">
-              <ul className="space-y-6 md:space-y-8">
-                {NAV.map((item) => (
-                  <li key={`${item.href}-${item.label}`}>
-                    <Link
-                      href={item.href}
-                      onClick={() => setOpen(false)}
-                      className="group inline-block focus:outline-none"
-                    >
-                      <span className="block text-4xl md:text-5xl font-semibold tracking-tight text-[#9E4A46] transition-opacity group-hover:opacity-70">
-                        {item.label}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
+              {/* equal distance: larger consistent gaps */}
+              <ul className="space-y-8 md:space-y-10">
+                {NAV.map((item) => {
+                  const hasChildren = !!item.children?.length
+
+                  // Shared underline effect (hover + focus)
+                  const Underline = () => (
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        'mt-4 block h-[2px] w-0 bg-[#9E4A46]',
+                        'opacity-0',
+                        // slow luxe underline animation
+                        'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+                        // expand on hover/focus-within
+                        'group-hover:w-28 group-hover:opacity-100',
+                        'group-focus-visible:w-28 group-focus-visible:opacity-100'
+                      )}
+                    />
+                  )
+
+                  return (
+                    <li key={item.label}>
+                      {hasChildren ? (
+                        <div>
+                          {/* Parent toggle (works on mobile via tap) */}
+                          <button
+                            type="button"
+                            onClick={() => setJvpOpen((v) => !v)}
+                            aria-expanded={jvpOpen}
+                            aria-controls="jvp-submenu"
+                            className={cn(
+                              'group inline-block text-left focus:outline-none',
+                              // give a clearer tap target on mobile
+                              'py-1'
+                            )}
+                          >
+                            <span className="block text-4xl md:text-5xl font-semibold tracking-tight text-[#9E4A46] transition-opacity group-hover:opacity-70">
+                              {item.label}
+                            </span>
+
+                            {/* Branded underline */}
+                            <Underline />
+                          </button>
+
+                          {/* Animated submenu (still works on mobile) */}
+                          <div
+                            id="jvp-submenu"
+                            className={cn(
+                              'mt-5 pl-3 md:pl-4 overflow-hidden',
+                              'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+                              jvpOpen
+                                ? 'max-h-56 opacity-100 translate-y-0'
+                                : 'max-h-0 opacity-0 -translate-y-1'
+                            )}
+                          >
+                            <div className="space-y-3">
+                              {item.children!.map((child) => (
+                                <Link
+                                  key={child.href}
+                                  href={child.href}
+                                  onClick={() => setOpen(false)}
+                                  className={cn(
+                                    'group block focus:outline-none',
+                                    // better mobile tap area
+                                    'py-2'
+                                  )}
+                                >
+                                  <span className="inline-block text-2xl md:text-3xl font-semibold tracking-tight text-[#9E4A46] transition-all duration-300 group-hover:opacity-70 group-hover:translate-x-1 group-hover:tracking-wide">
+                                    {child.label}
+                                  </span>
+
+                                  {/* subtle mini underline on hover */}
+                                  <span
+                                    aria-hidden="true"
+                                    className={cn(
+                                      'mt-2 block h-[1px] w-0 bg-[#9E4A46]/70',
+                                      'opacity-0',
+                                      'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+                                      'group-hover:w-24 group-hover:opacity-100'
+                                    )}
+                                  />
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <Link
+                          href={item.href!}
+                          onClick={() => setOpen(false)}
+                          className="group inline-block focus:outline-none"
+                        >
+                          <span className="block text-4xl md:text-5xl font-semibold tracking-tight text-[#9E4A46] transition-opacity group-hover:opacity-70">
+                            {item.label}
+                          </span>
+
+                          {/* Branded underline */}
+                          <span
+                            aria-hidden="true"
+                            className={cn(
+                              'mt-4 block h-[2px] w-0 bg-[#9E4A46]',
+                              'opacity-0',
+                              'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+                              'group-hover:w-28 group-hover:opacity-100',
+                              'group-focus-visible:w-28 group-focus-visible:opacity-100'
+                            )}
+                          />
+                        </Link>
+                      )}
+                    </li>
+                  )
+                })}
               </ul>
             </nav>
 
             {/* RIGHT: logo + certs + offices */}
             <aside className="relative pb-10 md:pb-0">
-              {/* Logo icon top-right of right column */}
               <div className="flex justify-start md:justify-end pt-2 md:pt-24">
                 <img
                   src="/icon.png"
@@ -113,8 +228,6 @@ export default function Nav() {
                 />
               </div>
 
-              {/* On mobile: normal flow (so it always shows fully)
-                  On desktop: pin to bottom-right */}
               <div className="mt-10 md:absolute md:bottom-10 md:right-0 md:text-right">
                 <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-black/40">
                   certifications
@@ -136,6 +249,7 @@ export default function Nav() {
                 </div>
               </div>
             </aside>
+
           </div>
         </div>
       </div>
