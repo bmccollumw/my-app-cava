@@ -14,14 +14,14 @@ const NAV: NavItem[] = [
   {
     label: 'joint venture partnerships',
     children: [
-      { label: 'airport advertising', href: '/airport-advertising' },
-      { label: 'staffing', href: '/staffing' },
+      { label: 'airport advertising', href: 'site/airport' },
+      { label: 'staffing', href: 'site/staffing' },
     ],
   },
-  { label: 'marketing solutions', href: '/contact' },
-  { label: 'diversity outreach', href: '/about' },
-  { label: 'about', href: '/about' },
-  { label: 'contact', href: '/contact' },
+  { label: 'marketing solutions', href: 'site/contact' },
+  { label: 'diversity outreach', href: 'site/about' },
+  { label: 'about', href: 'site/about' },
+  { label: 'contact', href: 'site/contact' },
 ]
 
 const CERTS = ['acdbe', 'mbe', 'w/dbe', 'hub']
