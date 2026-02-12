@@ -1,35 +1,39 @@
-import Nav from '@/components/Nav'
+import PageFadeIn from '@/components/PageFadeIn'
+import TopBarRightMenu from '@/components/TopBarRight'
 
 export default function HomePage() {
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-[#9E4A46]">
-      {/* Main nav (fixed in your Nav component) */}
-      <Nav />
+      {/* Fading masked video background */}
+      <PageFadeIn delay={200} className="absolute inset-0 z-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="h-full w-full object-cover"
+          style={{
+            WebkitMaskImage: 'url(/logo-mask-1.png)',
+            WebkitMaskRepeat: 'no-repeat',
+            WebkitMaskPosition: 'center',
+            WebkitMaskSize: 'min(100vw, 1250px)',
+            maskImage: 'url(/logo-mask-1.png)',
+            maskRepeat: 'no-repeat',
+            maskPosition: 'center',
+            maskSize: 'min(100vw, 1250px)',
+          }}
+        >
+          <source src="/1.mp4" type="video/mp4" />
+        </video>
+      </PageFadeIn>
 
-      {/* Masked background video */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 h-full w-full object-cover"
-        style={{
-          WebkitMaskImage: 'url(/logo-mask-1.png)',
-          WebkitMaskRepeat: 'no-repeat',
-          WebkitMaskPosition: 'center',
-          WebkitMaskSize: 'min(90vw, 1100px)',
+      {/* Overlay above video */}
+      <div className="absolute inset-0 z-10 bg-black/10" />
 
-          maskImage: 'url(/logo-mask-1.png)',
-          maskRepeat: 'no-repeat',
-          maskPosition: 'center',
-          maskSize: 'min(90vw, 1100px)',
-        }}
-      >
-        <source src="/1.mp4" type="video/mp4" />
-      </video>
-
-      {/* Optional: subtle dark overlay to improve contrast of Nav text */}
-      <div className="absolute inset-0 bg-black/10" />
+      {/* Nav above everything */}
+      <div className="relative z-20">
+        <TopBarRightMenu />
+      </div>
     </main>
   )
 }

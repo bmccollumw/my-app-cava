@@ -30,3 +30,18 @@
   -webkit-text-stroke: 2px rgba(255, 255, 255, 0.75);
   text-shadow: 0 0 18px rgba(255, 255, 255, 0.12);
 }
+
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-page-in {
+  animation: pageIn 240ms ease-out both;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-page-in { animation: none !important; }
+}
