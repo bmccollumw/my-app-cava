@@ -12,16 +12,17 @@ type NavItem = {
 
 const NAV: NavItem[] = [
   {
-    label: 'joint venture partnerships',
+    label: 'partnerships',
     children: [
-      { label: 'airport advertising', href: '/reveal/airport' },
-      { label: 'staffing', href: '/reveal/staffing' },
+      {label: 'partnership overview', href: '/partnerships'},
+      { label: 'airport advertising', href: '/airport' },
+      { label: 'staffing', href: '/staffing' },
     ],
   },
-  { label: 'marketing solutions', href: '/reveal/marketing' },
-  { label: 'diversity outreach', href: '/reveal/outreach' },
-  { label: 'about', href: '/onepagers/about' },
-  { label: 'contact', href: '/onepagers/contact' },
+  { label: 'marketing solutions', href: '/marketing' },
+  { label: 'diversity outreach', href: '/outreach' },
+  { label: 'about', href: 'about' },
+  { label: 'contact', href: '/contact' },
 ]
 
 const CERTS = ['acdbe', 'mbe', 'w/dbe', 'hub']
