@@ -16,10 +16,10 @@ const NAV: NavItem[] = [
     children: [
       {label: 'partnership overview', href: '/partnerships'},
       { label: 'airport advertising', href: '/airport' },
-      { label: 'staffing', href: '/staffing' },
+      { label: 'public sector', href: '/public-sector' },
     ],
   },
-  { label: 'marketing solutions', href: '/marketing' },
+  { label: 'strategic communications', href: '/strategic-communications' },
   { label: 'diversity outreach', href: '/outreach' },
   { label: 'about', href: 'about' },
   { label: 'contact', href: '/contact' },

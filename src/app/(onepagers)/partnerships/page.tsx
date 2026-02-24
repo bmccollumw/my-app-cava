@@ -1,12 +1,13 @@
 import PageFadeIn from '@/components/PageFadeIn'
+import type { FC } from 'react'
 
-export default function PartnershipOverviewPage() {
+const PartnershipOverviewPage: FC = () => {
   return (
     <main className="relative min-h-screen w-full overflow-hidden text-white">
       {/* Background */}
       <div
         className="absolute inset-0 -z-20 bg-cover bg-center"
-        style={{ backgroundImage: "url('/about-backdrop.jpg')" }}
+        style={{ backgroundImage: "url('/partnership-backdrop.jpg')" }}
       />
       <div className="absolute inset-0 -z-10 bg-black/65" />
 
@@ -26,7 +27,6 @@ export default function PartnershipOverviewPage() {
           {/* BODY fades slightly after */}
           <PageFadeIn delay={250}>
             <div className="mt-12 max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-white/80">
-
               <p>
                 We actively pursue joint ventures, subcontracting opportunities,
                 and strategic partnerships that strengthen RFP responses,
@@ -59,7 +59,6 @@ export default function PartnershipOverviewPage() {
                 or regulated advertising environments, we welcome the
                 opportunity to collaborate.
               </p>
-
             </div>
           </PageFadeIn>
 
@@ -68,3 +67,5 @@ export default function PartnershipOverviewPage() {
     </main>
   )
 }
+
+export default PartnershipOverviewPage
