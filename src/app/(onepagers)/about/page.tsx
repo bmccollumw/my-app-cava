@@ -17,9 +17,10 @@ export default function PartnershipOverviewPage() {
           {/* HERO fades first */}
           <PageFadeIn delay={0}>
             <p className="max-w-4xl text-3xl md:text-5xl font-light leading-tight text-white/95">
-              Cavazos is a premier certified partner for complex public and private
-              sector contracts across Texas and New York, delivering compliant,
-              scalable, and high-impact solutions in regulated environments.
+             Cavazos is a certified strategic partner specializing in joint venture and subcontracting 
+             roles on complex public-sector and private sector contracts. Founded in 2002, 
+             the firm has built a reputation for disciplined execution, compliance, 
+             and seamless collaboration with prime contractors and government agencies.
             </p>
           </PageFadeIn>
 
@@ -28,36 +29,13 @@ export default function PartnershipOverviewPage() {
             <div className="mt-12 max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-white/80">
 
               <p>
-                We actively pursue joint ventures, subcontracting opportunities,
-                and strategic partnerships that strengthen RFP responses,
-                meet participation goals, and deliver measurable results
-                from award through execution.
-              </p>
-
-              <p>
-                Cavazos is a certified ACDBE, MBE, W/DBE, and HUB of the State
-                of Texas, with longstanding certifications through the City of
-                Houston and recognized DBE participation with Harris County,
-                METRO, and the Port of Houston. These certifications reflect
-                more than eligibility — they represent over two decades of
-                proven execution in government communications, airport
-                concessions, disaster recovery support, staffing for contract
-                compliance, and public-sector program delivery.
-              </p>
-
-              <p>
-                As a trusted small business partner, Cavazos brings hands-on
-                leadership, rapid staff mobilization, and deep experience
-                working alongside prime contractors on complex municipal,
-                county, and airport contracts.
-              </p>
-
-              <p>
-                If you are preparing an RFP response and seeking a certified,
-                experienced partner with strengths in public affairs,
-                community engagement, talent acquisition, contract compliance,
-                or regulated advertising environments, we welcome the
-                opportunity to collaborate.
+                As an ACDBE, MBE, W/DBE, and HUB-certified business, Cavazos strengthens proposals and delivers 
+                results across aviation, municipal, and county initiatives. We serve as the Joint Venture Partner 
+                for the advertising concession at Houston’s Bush and Hobby Airports and support regional and 
+                municipal programs through staffing, program management, and strategic communications. 
+                Cavazos is built to mobilize quickly, integrate smoothly, and execute reliably. 
+                We help primes meet participation goals, enhance community engagement, and 
+                deliver measurable outcomes from award through completion.
               </p>
 
             </div>

@@ -20,7 +20,7 @@ const NAV: NavItem[] = [
     ],
   },
   { label: 'strategic communications', href: '/strategic-communications' },
-  { label: 'diversity outreach', href: '/outreach' },
+  { label: 'diversity outreach', href: '/diversity-outreach' },
   { label: 'about', href: 'about' },
   { label: 'contact', href: '/contact' },
 ]

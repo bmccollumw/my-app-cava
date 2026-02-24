@@ -6,7 +6,7 @@ export default function ContactPage() {
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/contact.jpg')" }}
+        style={{ backgroundImage: "url('/contact-background.jpg')" }}
         aria-hidden="true"
       />
       <div className="absolute inset-0 bg-black/60" aria-hidden="true" />

@@ -7,7 +7,7 @@ const PartnershipOverviewPage: FC = () => {
       {/* Background */}
       <div
         className="absolute inset-0 -z-20 bg-cover bg-center"
-        style={{ backgroundImage: "url('/partnership-backdrop.jpg')" }}
+        style={{ backgroundImage: "url('/partnership-background.jpg')" }}
       />
       <div className="absolute inset-0 -z-10 bg-black/65" />
 
