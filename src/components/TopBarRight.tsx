@@ -31,7 +31,6 @@ export default function TopBarRightMenu() {
   const [open, setOpen] = useState(false)
   const [jvpOpen, setJvpOpen] = useState(false)
 
-  /* Close on ESC */
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(false)
@@ -40,7 +39,6 @@ export default function TopBarRightMenu() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
 
-  /* Lock body scroll when menu open */
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => {
@@ -48,7 +46,6 @@ export default function TopBarRightMenu() {
     }
   }, [open])
 
-  /* Close submenu when menu closes */
   useEffect(() => {
     if (!open) setJvpOpen(false)
   }, [open])
@@ -68,9 +65,6 @@ export default function TopBarRightMenu() {
 
   return (
     <>
-      {/* =======================================================
-          FIXED TOP-RIGHT MENU BUTTON (viewport-anchored)
-         ======================================================= */}
       <div className="fixed top-0 right-0 z-[70] p-6 sm:p-8">
         <button
           type="button"
@@ -88,9 +82,6 @@ export default function TopBarRightMenu() {
         </button>
       </div>
 
-      {/* =======================================================
-          BACKDROP
-         ======================================================= */}
       <div
         className={cn(
           'fixed inset-0 z-[80]',
@@ -103,9 +94,6 @@ export default function TopBarRightMenu() {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      {/* =======================================================
-          FULL-SCREEN MENU OVERLAY
-         ======================================================= */}
       <div
         id="site-menu"
         role="dialog"
@@ -118,7 +106,6 @@ export default function TopBarRightMenu() {
             : '-translate-y-full opacity-0 pointer-events-none'
         )}
       >
-        {/* CLOSE BUTTON — same viewport padding as menu button */}
         <div className="fixed top-0 right-0 z-[110] p-6 sm:p-8">
           <button
             type="button"
@@ -133,12 +120,11 @@ export default function TopBarRightMenu() {
         <div className="mx-auto h-full max-w-6xl overflow-y-auto px-6 py-10">
           <div className="grid min-h-full grid-cols-1 gap-10 md:grid-cols-[1fr_320px]">
 
-            {/* ================= LEFT NAV ================= */}
+            {/* LEFT NAV */}
             <nav className="pt-20 md:pt-24">
               <ul className="space-y-8 md:space-y-10">
                 {NAV.map((item) => {
                   const hasChildren = !!item.children?.length
-
                   return (
                     <li key={item.label}>
                       {hasChildren ? (
@@ -156,7 +142,6 @@ export default function TopBarRightMenu() {
                             <Underline />
                           </button>
 
-                          {/* SUBMENU */}
                           <div
                             id="jvp-submenu"
                             className={cn(
@@ -178,7 +163,6 @@ export default function TopBarRightMenu() {
                                   <span className="inline-block text-2xl md:text-3xl font-semibold tracking-tight text-[#9E4A46] transition-all duration-300 group-hover:opacity-70 group-hover:translate-x-1 group-hover:tracking-wide">
                                     {child.label}
                                   </span>
-
                                   <span
                                     aria-hidden="true"
                                     className={cn(
@@ -211,13 +195,17 @@ export default function TopBarRightMenu() {
               </ul>
             </nav>
 
-            {/* ================= RIGHT INFO ================= */}
+            {/* RIGHT INFO */}
             <aside className="relative pb-10 md:pb-0">
               <div className="flex justify-start md:justify-end pt-2 md:pt-24">
                 <img
                   src="/icon.png"
                   alt="Cavazos logo icon"
-                  className="h-28 w-28 md:h-36 md:w-36 lg:h-44 lg:w-44"
+                  className={cn(
+                    'h-28 w-28 md:h-36 md:w-36 lg:h-44 lg:w-44',
+                    'transition-transform duration-700 ease-in-out',
+                    'hover:rotate-180'
+                  )}
                 />
               </div>
 
@@ -225,7 +213,6 @@ export default function TopBarRightMenu() {
                 <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-black/40">
                   certifications
                 </h3>
-
                 <ul className="space-y-2">
                   {CERTS.map((c) => (
                     <li key={c} className="text-sm md:text-base font-medium text-[#9E4A46]">
@@ -233,7 +220,6 @@ export default function TopBarRightMenu() {
                     </li>
                   ))}
                 </ul>
-
                 <div className="mt-8 text-xs font-semibold uppercase tracking-[0.25em] text-black/40">
                   offices
                 </div>

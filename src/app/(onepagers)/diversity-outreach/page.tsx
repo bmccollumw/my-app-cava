@@ -1,32 +1,27 @@
 import PageFadeIn from '@/components/PageFadeIn'
 
+const BG_IMAGE = '/diversity-background.jpg'
+
 export default function DiversityOutreachPage() {
   return (
-    <main className="relative min-h-screen w-full overflow-hidden text-white">
-      {/* Background */}
-      <div
-        className="absolute inset-0 -z-20 bg-cover bg-center"
-        style={{ backgroundImage: "url('/diversity-background.jpg')" }}
-        aria-hidden="true"
-      />
-      <div className="absolute inset-0 -z-10 bg-black/65" aria-hidden="true" />
+    <main
+      className="relative min-h-screen w-full text-white bg-black bg-cover bg-center"
+      style={{ backgroundImage: `url('${BG_IMAGE}')` }}
+    >
+      <div className="absolute inset-0 bg-black/65" aria-hidden="true" />
 
-      {/* Content */}
-      <section className="relative pt-40 pb-32">
-        <div className="ml-6 md:ml-12 lg:ml-16">
-          {/* HERO fades first */}
-          <PageFadeIn delay={0}>
+      <PageFadeIn delay={0}>
+        <section className="relative pt-40 pb-32">
+          <div className="ml-6 md:ml-12 lg:ml-16">
+
             <p className="max-w-4xl text-3xl md:text-5xl font-light leading-tight text-white/95">
               Cavazos specializes in building authentic connections between
               organizations and the communities they serve—through localized,
               grassroots engagement and culturally informed communications that
               ensure programs reach the audiences they are intended to serve.
             </p>
-          </PageFadeIn>
 
-          {/* BODY fades slightly after */}
-          <PageFadeIn delay={250}>
-            <div className="mt-12 max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-white/80">
+            <PageFadeIn delay={300} className="mt-12 max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-white/80">
               <p>
                 Our diversity outreach practice is rooted in localization,
                 grassroots engagement, and culturally informed communications
@@ -62,10 +57,12 @@ export default function DiversityOutreachPage() {
                 meet participation goals, expand engagement, and create
                 measurable impact across diverse populations.
               </p>
-            </div>
-          </PageFadeIn>
-        </div>
-      </section>
+            </PageFadeIn>
+
+          </div>
+        </section>
+      </PageFadeIn>
+
     </main>
   )
 }

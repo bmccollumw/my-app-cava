@@ -1,33 +1,27 @@
 import PageFadeIn from '@/components/PageFadeIn'
 
+const BG_IMAGE = '/airport.jpg'
+
 export default function AirportAdvertisingOverviewPage() {
   return (
-    <main className="relative min-h-screen w-full overflow-hidden text-white">
-      {/* Background */}
-      <div
-        className="absolute inset-0 -z-20 bg-cover bg-center"
-        style={{ backgroundImage: "url('/airport.jpg')" }}
-      />
-      <div className="absolute inset-0 -z-10 bg-black/65" />
+    <main
+      className="relative min-h-screen w-full text-white bg-black bg-cover bg-center"
+      style={{ backgroundImage: `url('${BG_IMAGE}')` }}
+    >
+      <div className="absolute inset-0 bg-black/65" />
 
-      {/* Content */}
-      <section className="relative pt-40 pb-32">
-        <div className="ml-6 md:ml-12 lg:ml-16">
+      <PageFadeIn delay={0}>
+        <section className="relative pt-40 pb-32">
+          <div className="ml-6 md:ml-12 lg:ml-16">
 
-          {/* HERO fades first */}
-          <PageFadeIn delay={0}>
             <p className="max-w-4xl text-3xl md:text-5xl font-light leading-tight text-white/95">
               Cavazos is proud to serve as the certified joint-venture partner
               with JCDecaux for the exclusive management of airport advertising
               at George Bush Intercontinental Airport (IAH) and William P.
               Hobby Airport (HOU).
             </p>
-          </PageFadeIn>
 
-          {/* BODY fades slightly after */}
-          <PageFadeIn delay={250}>
-            <div className="mt-12 max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-white/80">
-
+            <PageFadeIn delay={300} className="mt-12 max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-white/80">
               <p>
                 Together, we oversee one of the most dynamic airport media
                 programs in the country, delivering premium digital, static,
@@ -36,11 +30,11 @@ export default function AirportAdvertisingOverviewPage() {
                 regulatory compliance, and strategic partnership execution,
                 while JCDecaux brings global innovation and world-class media
                 infrastructure. The result is a seamless, high-impact
-                advertising ecosystem across Houston’s gateway airports.
+                advertising ecosystem across Houston's gateway airports.
               </p>
 
               <p>
-                Houston’s airports offer unmatched access to influential
+                Houston's airports offer unmatched access to influential
                 travelers. IAH welcomed more than 45 million passengers in
                 2023, ranking among the busiest airports in the United States,
                 while HOU served over 14 million passengers. As the energy
@@ -67,12 +61,12 @@ export default function AirportAdvertisingOverviewPage() {
                 program tailored to your objectives. Contact us to begin the
                 conversation.
               </p>
+            </PageFadeIn>
 
-            </div>
-          </PageFadeIn>
+          </div>
+        </section>
+      </PageFadeIn>
 
-        </div>
-      </section>
     </main>
   )
 }

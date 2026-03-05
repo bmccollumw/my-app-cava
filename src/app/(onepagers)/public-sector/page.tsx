@@ -1,33 +1,26 @@
 import PageFadeIn from '@/components/PageFadeIn'
 
+const BG_IMAGE = '/public-backdrop.jpg'
 
 export default function StaffingOverviewPage() {
   return (
-    <main className="relative min-h-screen w-full overflow-hidden text-white">
-      {/* Background */}
-      <div
-        className="absolute inset-0 -z-20 bg-cover bg-center"
-        style={{ backgroundImage: "url('/public-backdrop.jpg')" }}
-      />
-      <div className="absolute inset-0 -z-10 bg-black/65" />
+    <main
+      className="relative min-h-screen w-full text-white bg-black bg-cover bg-center"
+      style={{ backgroundImage: `url('${BG_IMAGE}')` }}
+    >
+      <div className="absolute inset-0 bg-black/65" />
 
-      {/* Content */}
-      <section className="relative pt-40 pb-32">
-        <div className="ml-6 md:ml-12 lg:ml-16">
+      <PageFadeIn delay={0}>
+        <section className="relative pt-40 pb-32">
+          <div className="ml-6 md:ml-12 lg:ml-16">
 
-          {/* HERO fades first */}
-          <PageFadeIn delay={0}>
             <p className="max-w-4xl text-3xl md:text-5xl font-light leading-tight text-white/95">
               Cavazos partners with Tetra Tech as a strategic subcontractor
               supporting Harris County initiatives that strengthen community
               resilience, equity, and operational delivery.
             </p>
-          </PageFadeIn>
 
-          {/* BODY fades slightly after */}
-          <PageFadeIn delay={250}>
-            <div className="mt-12 max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-white/80">
-
+            <PageFadeIn delay={300} className="mt-12 max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-white/80">
               <p>
                 Through this partnership, Cavazos provides talent acquisition,
                 analytical support, outreach, and program management services
@@ -55,12 +48,12 @@ export default function StaffingOverviewPage() {
                 that require trusted local leadership, certified participation,
                 and disciplined execution.
               </p>
+            </PageFadeIn>
 
-            </div>
-          </PageFadeIn>
+          </div>
+        </section>
+      </PageFadeIn>
 
-        </div>
-      </section>
     </main>
   )
 }

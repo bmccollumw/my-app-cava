@@ -1,32 +1,27 @@
 import PageFadeIn from '@/components/PageFadeIn'
 import type { FC } from 'react'
 
+const BG_IMAGE = '/partnership-background.jpg'
+
 const PartnershipOverviewPage: FC = () => {
   return (
-    <main className="relative min-h-screen w-full overflow-hidden text-white">
-      {/* Background */}
-      <div
-        className="absolute inset-0 -z-20 bg-cover bg-center"
-        style={{ backgroundImage: "url('/partnership-background.jpg')" }}
-      />
-      <div className="absolute inset-0 -z-10 bg-black/65" />
+    <main
+      className="relative min-h-screen w-full text-white bg-black bg-cover bg-center"
+      style={{ backgroundImage: `url('${BG_IMAGE}')` }}
+    >
+      <div className="absolute inset-0 bg-black/65" />
 
-      {/* Content */}
-      <section className="relative pt-40 pb-32">
-        <div className="ml-6 md:ml-12 lg:ml-16">
+      <PageFadeIn delay={0}>
+        <section className="relative pt-40 pb-32">
+          <div className="ml-6 md:ml-12 lg:ml-16">
 
-          {/* HERO fades first */}
-          <PageFadeIn delay={0}>
             <p className="max-w-4xl text-3xl md:text-5xl font-light leading-tight text-white/95">
               Cavazos is a premier certified partner for complex public and private
               sector contracts across Texas and New York, delivering compliant,
               scalable, and high-impact solutions in regulated environments.
             </p>
-          </PageFadeIn>
 
-          {/* BODY fades slightly after */}
-          <PageFadeIn delay={250}>
-            <div className="mt-12 max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-white/80">
+            <PageFadeIn delay={300} className="mt-12 max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-white/80">
               <p>
                 We actively pursue joint ventures, subcontracting opportunities,
                 and strategic partnerships that strengthen RFP responses,
@@ -59,11 +54,12 @@ const PartnershipOverviewPage: FC = () => {
                 or regulated advertising environments, we welcome the
                 opportunity to collaborate.
               </p>
-            </div>
-          </PageFadeIn>
+            </PageFadeIn>
 
-        </div>
-      </section>
+          </div>
+        </section>
+      </PageFadeIn>
+
     </main>
   )
 }

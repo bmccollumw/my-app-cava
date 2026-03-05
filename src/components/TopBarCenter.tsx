@@ -9,16 +9,9 @@ export default function TopBarCenterLogo({
   return (
     <div
       className={cn(
-        // Anchor to viewport top center
         'fixed inset-x-0 top-0 z-[65]',
-
-        // Layout
         'flex justify-center',
-
-        // Padding from top (responsive, consistent)
         'pt-6 sm:pt-8',
-
-        // Allow clicks only on the logo itself
         'pointer-events-none'
       )}
     >
@@ -31,8 +24,9 @@ export default function TopBarCenterLogo({
           src="/icon.png"
           alt="Cavazos logo"
           className={cn(
-            // Clean responsive sizing
             'h-12 w-12 md:h-14 md:w-14 lg:h-16 lg:w-16',
+            'transition-transform duration-700 ease-in-out',
+            'hover:rotate-180',
             className
           )}
         />
