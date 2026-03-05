@@ -1,16 +1,60 @@
 @import "tailwindcss";
 
 @layer base {
+  :root {
+    --cavazos-red: 158 74 70;
+  }
+
   html,
   body {
     height: 100%;
   }
 
   body {
-    @apply bg-black text-white antialiased;
+    @apply text-white antialiased;
   }
 
   button {
     -webkit-tap-highlight-color: transparent;
   }
+}
+
+/* Cuts text out of the dark overlay so video shows through letters */
+.cavazos-cutout {
+  mix-blend-mode: screen;
+}
+
+/* Optional outline */
+.cavazos-outline {
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.75);
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.12);
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-page-in {
+  animation: pageIn 1200ms ease-out both;
+  animation-fill-mode: both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-page-in { animation: none !important; }
+}
+
+/* Logo carousel */
+@keyframes carousel {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-carousel {
+  animation: carousel 40s linear infinite;
+  width: max-content;
+}
+
+.animate-carousel:hover {
+  animation-play-state: paused;
 }
