@@ -14,14 +14,14 @@ const NAV: NavItem[] = [
   {
     label: 'partnerships',
     children: [
-      {label: 'partnership overview', href: '/partnerships'},
+      { label: 'partnership overview', href: '/partnerships' },
       { label: 'airport advertising', href: '/airport' },
       { label: 'public sector', href: '/public-sector' },
     ],
   },
   { label: 'strategic communications', href: '/strategic-communications' },
   { label: 'diversity outreach', href: '/diversity-outreach' },
-  { label: 'about', href: 'about' },
+  { label: 'about', href: '/about' },
   { label: 'contact', href: '/contact' },
 ]
 
@@ -41,9 +41,7 @@ export default function TopBarRightMenu() {
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
+    return () => { document.body.style.overflow = '' }
   }, [open])
 
   useEffect(() => {
@@ -120,13 +118,13 @@ export default function TopBarRightMenu() {
         <div className="mx-auto h-full max-w-6xl overflow-y-auto px-6 py-10">
           <div className="grid min-h-full grid-cols-1 gap-10 md:grid-cols-[1fr_320px]">
 
-            {/* LEFT NAV */}
+            {/* LEFT NAV — mb on each li for consistent spacing */}
             <nav className="pt-20 md:pt-24">
-              <ul className="space-y-8 md:space-y-10">
+              <ul className="flex flex-col">
                 {NAV.map((item) => {
                   const hasChildren = !!item.children?.length
                   return (
-                    <li key={item.label}>
+                    <li key={item.label} className="mb-8 md:mb-10">
                       {hasChildren ? (
                         <div>
                           <button
@@ -145,11 +143,11 @@ export default function TopBarRightMenu() {
                           <div
                             id="jvp-submenu"
                             className={cn(
-                              'mt-5 pl-3 md:pl-4 overflow-hidden',
+                              'pl-3 md:pl-4 overflow-hidden',
                               'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
                               jvpOpen
-                                ? 'max-h-56 opacity-100 translate-y-0'
-                                : 'max-h-0 opacity-0 -translate-y-1'
+                                ? 'max-h-56 opacity-100 mt-5'
+                                : 'max-h-0 opacity-0 mt-0'
                             )}
                           >
                             <div className="space-y-3">
@@ -181,7 +179,7 @@ export default function TopBarRightMenu() {
                         <Link
                           href={item.href!}
                           onClick={() => setOpen(false)}
-                          className="group inline-block focus:outline-none"
+                          className="group inline-block py-1 focus:outline-none"
                         >
                           <span className="block text-4xl md:text-5xl font-semibold tracking-tight text-[#9E4A46] transition-opacity group-hover:opacity-70">
                             {item.label}

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import PageFadeIn from '@/components/PageFadeIn'
 import type { FC } from 'react'
 
@@ -18,7 +19,7 @@ const PartnershipOverviewPage: FC = () => {
             <p className="max-w-4xl text-3xl md:text-5xl font-light leading-tight text-white/95">
               Cavazos is a premier certified partner for complex public and private
               sector contracts across Texas and New York, delivering compliant,
-              scalable, and high-impact solutions in regulated environments.
+              scalable, and high-impact solutions.
             </p>
 
             <PageFadeIn delay={300} className="mt-12 max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-white/80">
@@ -52,7 +53,14 @@ const PartnershipOverviewPage: FC = () => {
                 experienced partner with strengths in public affairs,
                 community engagement, talent acquisition, contract compliance,
                 or regulated advertising environments, we welcome the
-                opportunity to collaborate.
+                opportunity to collaborate. Contact us{' '}
+                <Link
+                  href="/contact"
+                  className="underline underline-offset-4 decoration-white/40 hover:decoration-white transition-colors duration-200"
+                >
+                  here
+                </Link>
+                .
               </p>
             </PageFadeIn>
 
