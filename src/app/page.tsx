@@ -18,7 +18,7 @@ export default function HomePage() {
             WebkitMaskRepeat: 'no-repeat',
             WebkitMaskPosition: 'center',
             WebkitMaskSize: 'min(100vw, 1250px)',
-            maskImage: 'url(/logo-mask-1.png)',
+            maskImage: 'url(/cavazos-clean.png)',
             maskRepeat: 'no-repeat',
             maskPosition: 'center',
             maskSize: 'min(100vw, 1250px)',
