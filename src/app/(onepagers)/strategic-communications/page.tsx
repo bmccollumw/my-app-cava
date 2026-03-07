@@ -28,6 +28,21 @@ const StrategicCommunicationsPage: FC = () => {
     >
       <div className="absolute inset-0 bg-black/65" />
 
+      {/* Global style for responsive logo tiles — fixes Safari iOS calc() bug in flex */}
+      <style>{`
+        .logo-tile {
+          width: 100px;
+          height: 75px;
+          flex-shrink: 0;
+        }
+        @media (min-width: 768px) {
+          .logo-tile {
+            width: calc(100vw / 8);
+            height: calc(100vw / 8 * 0.75);
+          }
+        }
+      `}</style>
+
       <PageFadeIn delay={0}>
         <section className="relative pt-40 pb-32">
           <div className="ml-6 md:ml-12 lg:ml-16 lg:mr-16">
@@ -66,21 +81,26 @@ const StrategicCommunicationsPage: FC = () => {
               Trusted by
             </p>
             <div className="relative overflow-hidden">
+              {/* Edge fades */}
               <div className="absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-black/70 to-transparent pointer-events-none" />
               <div className="absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-black/70 to-transparent pointer-events-none" />
+
               <div className="flex animate-carousel">
                 {LOGOS_DOUBLED.map((logo, i) => (
                   <div
                     key={`${logo.src}-${i}`}
-                    className="flex-shrink-0 flex items-center justify-center bg-white/8 border-r border-white/10 p-5"
-                    style={{ width: 'calc(100vw / 8)', height: 'calc(100vw / 8 * 0.75)' }}
+                    className="logo-tile flex items-center justify-center bg-white/8 border-r border-white/10 p-5"
                   >
                     <img
                       src={logo.src}
                       alt={logo.alt}
-                      className={`w-full h-full object-contain opacity-70 hover:opacity-100 transition-opacity duration-200 ${
-                        logo.filter ? 'filter brightness-0 invert' : ''
-                      }`}
+                      loading="eager"
+                      decoding="sync"
+                      className="w-full h-full object-contain opacity-70 hover:opacity-100 transition-opacity duration-200"
+                      style={logo.filter ? {
+                        filter: 'brightness(0) invert(1)',
+                        WebkitFilter: 'brightness(0) invert(1)',
+                      } : undefined}
                     />
                   </div>
                 ))}
