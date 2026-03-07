@@ -46,18 +46,19 @@ export default function TopBarLeft({ nav }: { nav: NavItem[] }) {
         'px-4 sm:px-6 pt-7 sm:pt-8',
         'inline-flex items-center gap-2 sm:gap-3',
         'text-white font-bold lowercase',
-        // Smaller on mobile to avoid overlapping center logo
         'text-base sm:text-xl md:text-3xl',
+        // Cap width so it never reaches the center logo
+        'max-w-[33vw] sm:max-w-[40vw] md:max-w-none',
         'group select-none',
         'transition-all duration-500 ease-out',
         mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1',
       ].join(' ')}
     >
-      {/* Arrow */}
+      {/* Arrow — never truncated */}
       <span
         aria-hidden="true"
         className="
-          relative -top-[1px]
+          relative -top-[1px] flex-shrink-0
           text-white/85
           transition-transform duration-200 ease-out
           group-hover:-translate-x-0.5
@@ -66,8 +67,8 @@ export default function TopBarLeft({ nav }: { nav: NavItem[] }) {
         ←
       </span>
 
-      {/* Title */}
-      <span className="relative">
+      {/* Title — truncates with ellipsis if too long */}
+      <span className="relative min-w-0 truncate">
         {title}
 
         {/* luxury underline */}
