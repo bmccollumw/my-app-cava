@@ -20,9 +20,7 @@ export default function TopBarLeft({ nav }: { nav: NavItem[] }) {
     return () => window.clearTimeout(t)
   }, [])
 
-  // 🔹 resolve title from nav
   const current = normalize(pathname)
-
   const match = nav.find((item) => normalize(item.href) === current)
 
   const fallback =
@@ -45,10 +43,11 @@ export default function TopBarLeft({ nav }: { nav: NavItem[] }) {
       aria-label="Go back"
       className={[
         'fixed top-0 left-0 z-[60]',
-        'px-6 pt-8',
-        'inline-flex items-center gap-3',
+        'px-4 sm:px-6 pt-7 sm:pt-8',
+        'inline-flex items-center gap-2 sm:gap-3',
         'text-white font-bold lowercase',
-        'text-2xl md:text-3xl',
+        // Smaller on mobile to avoid overlapping center logo
+        'text-base sm:text-xl md:text-3xl',
         'group select-none',
         'transition-all duration-500 ease-out',
         mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1',
