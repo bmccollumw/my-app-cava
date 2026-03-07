@@ -14,7 +14,7 @@ export default function HomePage() {
           playsInline
           className="h-full w-full object-cover"
           style={{
-            WebkitMaskImage: 'url(/logo-mask-1.png)',
+            WebkitMaskImage: 'url(/cavazos-clean.png)',
             WebkitMaskRepeat: 'no-repeat',
             WebkitMaskPosition: 'center',
             WebkitMaskSize: 'min(100vw, 1250px)',
