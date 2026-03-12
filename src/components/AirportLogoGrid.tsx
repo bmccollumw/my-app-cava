@@ -11,6 +11,7 @@ const AIRPORT_LOGOS = [
   { src: '/villageschool.png', alt: 'The Village School',           filter: false },
   { src: '/sgrr.webp',         alt: "Scott Gertner's Rhythm Room",  filter: false },
   { src: '/heb.png',           alt: 'H-E-B',                        filter: false },
+  { src: '/mfah.avif',         alt: 'Museum of Fine Arts Houston',  filter: false },
 ]
 
 const LOGOS_DOUBLED = [...AIRPORT_LOGOS, ...AIRPORT_LOGOS]
