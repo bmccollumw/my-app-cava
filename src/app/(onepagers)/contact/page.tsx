@@ -15,6 +15,40 @@ const TOPICS = [
 export default function ContactPage() {
   const [selectedTopic, setSelectedTopic] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setError('')
+
+    if (!selectedTopic) {
+      setError('Please select a topic.')
+      return
+    }
+
+    const form = e.currentTarget
+    const email = (form.elements.namedItem('email') as HTMLInputElement).value
+    const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value
+
+    setLoading(true)
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: selectedTopic, email, message }),
+      })
+
+      if (!res.ok) throw new Error('Failed to send')
+
+      setSubmitted(true)
+    } catch {
+      setError('Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <main
@@ -55,15 +89,7 @@ export default function ContactPage() {
                   <p className="mt-3 text-white/50 text-sm">We'll be in touch shortly.</p>
                 </div>
               ) : (
-                <form
-                  className="space-y-8"
-                  method="POST"
-                  action="/api/contact"
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    setSubmitted(true)
-                  }}
-                >
+                <form className="space-y-8" onSubmit={handleSubmit}>
                   <div>
                     <p className="text-xs uppercase tracking-[0.2em] text-white/40 mb-3">
                       Topic
@@ -84,7 +110,6 @@ export default function ContactPage() {
                         </button>
                       ))}
                     </div>
-                    <input type="hidden" name="topic" value={selectedTopic} required />
                   </div>
 
                   <div className="group">
@@ -113,11 +138,16 @@ export default function ContactPage() {
                     />
                   </div>
 
+                  {error && (
+                    <p className="text-red-400 text-sm">{error}</p>
+                  )}
+
                   <button
                     type="submit"
-                    className="group flex items-center gap-3 text-sm uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors duration-200"
+                    disabled={loading}
+                    className="group flex items-center gap-3 text-sm uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                   >
-                    <span>Send message</span>
+                    <span>{loading ? 'Sending…' : 'Send message'}</span>
                     <span className="w-8 h-px bg-white/40 group-hover:w-14 group-hover:bg-white transition-all duration-300" />
                   </button>
 

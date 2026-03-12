@@ -1,4 +1,5 @@
 import PageFadeIn from '@/components/PageFadeIn'
+import AirportLogoGrid from '@/components/AirportLogoGrid'
 
 const BG_IMAGE = '/airport.jpg'
 
@@ -64,6 +65,14 @@ export default function AirportAdvertisingOverviewPage() {
             </PageFadeIn>
 
           </div>
+
+          <PageFadeIn delay={500} className="mt-16">
+            <p className="text-xs uppercase tracking-[0.25em] text-white/35 mb-6 ml-6 md:ml-12 lg:ml-16">
+              Advertising Partners
+            </p>
+            <AirportLogoGrid />
+          </PageFadeIn>
+
         </section>
       </PageFadeIn>
 
