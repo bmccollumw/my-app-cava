@@ -52,11 +52,24 @@ export default function TopBarRightMenu() {
     <span
       aria-hidden="true"
       className={cn(
-        'mt-4 block h-[2px] w-0 bg-[#9E4A46]',
+        'absolute bottom-0 left-0 h-[2px] w-0 bg-[#9E4A46]',
         'opacity-0',
         'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
-        'group-hover:w-28 group-hover:opacity-100',
-        'group-focus-visible:w-28 group-focus-visible:opacity-100'
+        'group-hover:w-full group-hover:opacity-100',
+        'group-focus-visible:w-full group-focus-visible:opacity-100'
+      )}
+    />
+  )
+
+  const UnderlineWhite = () => (
+    <span
+      aria-hidden="true"
+      className={cn(
+        'absolute bottom-0 left-0 h-[2px] w-0 bg-white',
+        'opacity-0',
+        'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+        'group-hover:w-full group-hover:opacity-100',
+        'group-focus-visible:w-full group-focus-visible:opacity-100'
       )}
     />
   )
@@ -71,12 +84,13 @@ export default function TopBarRightMenu() {
           aria-controls="site-menu"
           aria-label="Open menu"
           className={cn(
-            'text-2xl md:text-3xl font-bold lowercase text-white',
+            'group relative pb-3 text-2xl md:text-3xl font-bold lowercase text-white',
             'transition-opacity duration-300',
             open ? 'opacity-0 pointer-events-none' : 'opacity-100'
           )}
         >
           menu
+          <UnderlineWhite />
         </button>
       </div>
 
@@ -109,13 +123,13 @@ export default function TopBarRightMenu() {
             type="button"
             onClick={() => setOpen(false)}
             aria-label="Close menu"
-            className="text-2xl md:text-3xl font-bold lowercase text-[#9E4A46]"
+            className="group relative pb-3 text-2xl md:text-3xl font-bold lowercase text-[#9E4A46]"
           >
             close
+            <Underline />
           </button>
         </div>
 
-        {/* Scrollable container strictly bounded to viewport */}
         <div className="h-screen w-full overflow-y-auto">
           <div className="mx-auto max-w-6xl px-6 py-10 min-h-screen">
             <div className="grid grid-cols-1 gap-10 md:grid-cols-[1fr_320px] min-h-screen">
@@ -134,7 +148,7 @@ export default function TopBarRightMenu() {
                               onClick={() => setJvpOpen((v) => !v)}
                               aria-expanded={jvpOpen}
                               aria-controls="jvp-submenu"
-                              className="group inline-block py-1 text-left focus:outline-none"
+                              className="group relative inline-block pb-3 text-left focus:outline-none"
                             >
                               <span className="block text-4xl md:text-5xl font-semibold tracking-tight text-[#9E4A46] transition-opacity group-hover:opacity-70">
                                 {item.label}
@@ -158,20 +172,12 @@ export default function TopBarRightMenu() {
                                     key={child.href}
                                     href={child.href}
                                     onClick={() => setOpen(false)}
-                                    className="group block py-2 focus:outline-none"
+                                    className="group relative inline-block pb-3 focus:outline-none"
                                   >
                                     <span className="inline-block text-2xl md:text-3xl font-semibold tracking-tight text-[#9E4A46] transition-all duration-300 group-hover:opacity-70 group-hover:translate-x-1 group-hover:tracking-wide">
                                       {child.label}
                                     </span>
-                                    <span
-                                      aria-hidden="true"
-                                      className={cn(
-                                        'mt-2 block h-[1px] w-0 bg-[#9E4A46]/70',
-                                        'opacity-0',
-                                        'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
-                                        'group-hover:w-24 group-hover:opacity-100'
-                                      )}
-                                    />
+                                    <Underline />
                                   </Link>
                                 ))}
                               </div>
@@ -181,7 +187,7 @@ export default function TopBarRightMenu() {
                           <Link
                             href={item.href!}
                             onClick={() => setOpen(false)}
-                            className="group inline-block py-1 focus:outline-none"
+                            className="group relative inline-block pb-3 focus:outline-none"
                           >
                             <span className="block text-4xl md:text-5xl font-semibold tracking-tight text-[#9E4A46] transition-opacity group-hover:opacity-70">
                               {item.label}
@@ -195,7 +201,7 @@ export default function TopBarRightMenu() {
                 </ul>
               </nav>
 
-              {/* RIGHT INFO — logo top, certs/offices anchored bottom on large screens */}
+              {/* RIGHT INFO */}
               <aside className="relative pb-10 md:pb-0">
                 <div className="flex justify-start md:justify-end pt-2 md:pt-24">
                   <img
