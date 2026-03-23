@@ -44,12 +44,11 @@ export default function TopBarLeft({ nav }: { nav: NavItem[] }) {
       className={[
         'fixed top-0 left-0 z-[60]',
         'px-4 sm:px-6 pt-7 sm:pt-8',
-        'inline-flex items-center gap-2 sm:gap-3',
+        'inline-flex items-start gap-2 sm:gap-3',
         'text-white font-bold lowercase',
         'text-base sm:text-xl md:text-3xl',
-        // Cap width so it never reaches the center logo
         'max-w-[33vw] sm:max-w-[40vw] md:max-w-none',
-        'group select-none',
+        'group select-none overflow-hidden',
         'transition-all duration-500 ease-out',
         mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1',
       ].join(' ')}
@@ -58,7 +57,7 @@ export default function TopBarLeft({ nav }: { nav: NavItem[] }) {
       <span
         aria-hidden="true"
         className="
-          relative -top-[1px] flex-shrink-0
+          relative top-[2px] flex-shrink-0
           text-white/85
           transition-transform duration-200 ease-out
           group-hover:-translate-x-0.5
@@ -67,20 +66,16 @@ export default function TopBarLeft({ nav }: { nav: NavItem[] }) {
         ←
       </span>
 
-      {/* Title — truncates with ellipsis if too long */}
-      <span className="relative min-w-0 truncate">
-        {title}
-
-        {/* luxury underline */}
+      {/* Title */}
+      <span className="relative inline-block pb-3 overflow-visible flex-shrink min-w-0">
+        <span className="block truncate">{title}</span>
         <span
           aria-hidden="true"
           className="
-            pointer-events-none
-            absolute left-0 -bottom-1 h-px w-full
-            origin-left scale-x-0 opacity-0
-            transition-all duration-300 ease-out
-            group-hover:scale-x-100 group-hover:opacity-100
-            bg-white/85
+            absolute bottom-0 left-0 h-[2px] w-0 bg-white
+            opacity-0
+            transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]
+            group-hover:w-full group-hover:opacity-100
           "
         />
       </span>
