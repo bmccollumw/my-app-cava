@@ -166,15 +166,15 @@ export default function TopBarRightMenu() {
                                   : 'max-h-0 opacity-0 mt-0'
                               )}
                             >
-                              <div className="space-y-3">
+                              <div className="flex flex-col space-y-3">
                                 {item.children!.map((child) => (
                                   <Link
                                     key={child.href}
                                     href={child.href}
                                     onClick={() => setOpen(false)}
-                                    className="group relative inline-block pb-3 focus:outline-none"
+                                    className="group relative inline-block w-fit pb-3 focus:outline-none"
                                   >
-                                    <span className="inline-block text-2xl md:text-3xl font-semibold tracking-tight text-[#9E4A46] transition-all duration-300 group-hover:opacity-70 group-hover:translate-x-1 group-hover:tracking-wide">
+                                    <span className="block text-2xl md:text-3xl font-semibold tracking-tight text-[#9E4A46] transition-all duration-300 group-hover:opacity-70 group-hover:translate-x-1 group-hover:tracking-wide">
                                       {child.label}
                                     </span>
                                     <Underline />
