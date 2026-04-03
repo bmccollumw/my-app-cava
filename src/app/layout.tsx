@@ -12,6 +12,19 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Cavazos',
+              url: 'https://www.thinkcava.com',
+            }),
+          }}
+        />
+      </head>
       <body className="bg-black">
         <PageTransition>{children}</PageTransition>
       </body>
