@@ -31,14 +31,24 @@
 }
 
 @layer utilities {
+  /* Page fade IN — slower (was 1200ms) */
   @keyframes pageIn {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
   .animate-page-in {
-    animation: pageIn 1200ms ease-out both;
-    animation-fill-mode: both;
+    animation: pageIn 1800ms ease-out both;
+  }
+
+  /* Page fade OUT — new. Keep 900ms in sync with EXIT_MS in PageTransition.tsx */
+  @keyframes pageOut {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-8px); }
+  }
+
+  .animate-page-out {
+    animation: pageOut 900ms ease-in forwards;
   }
 
   @keyframes carousel {
@@ -58,5 +68,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .animate-page-in { animation: none !important; }
+  .animate-page-out { animation: none !important; }
   .animate-carousel { animation: none !important; }
 }
