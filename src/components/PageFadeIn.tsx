@@ -46,7 +46,8 @@ export default function PageFadeIn({
   return (
     <div
       className={cn(
-        'transition-[opacity,transform] duration-700 ease-out will-change-[opacity,transform]',
+        // slower content fade (was duration-700)
+        'transition-[opacity,transform] duration-[1500ms] ease-out will-change-[opacity,transform]',
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2',
         className
       )}

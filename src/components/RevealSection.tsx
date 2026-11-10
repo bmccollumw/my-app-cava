@@ -32,7 +32,8 @@ export default function RevealSection({
     <div
       ref={ref}
       className={cn(
-        'transition-all duration-700 ease-out will-change-transform',
+        // slower scroll reveal (was duration-700)
+        'transition-all duration-[1200ms] ease-out will-change-transform',
         shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6',
         className
       )}
