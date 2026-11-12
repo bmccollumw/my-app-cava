@@ -223,7 +223,7 @@ const StrategicCommunicationsPage: FC = () => {
             <span className="text-[#D7E1D9]">Let&apos;s talk.</span>
           </h2>
           <Link
-            href="/contact"
+            href="/contact?topic=strategic-communications"
             className="relative z-10 shrink-0 bg-[#D7E1D9] px-[34px] py-[18px] text-[17px] font-semibold text-[#2C3A40] transition-colors duration-300 hover:bg-white"
           >
             Contact us →

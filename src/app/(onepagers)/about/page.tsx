@@ -69,7 +69,7 @@ const SERVICES = [
   {
     title: 'Web development & engineering',
     blurb: 'Websites, web apps & digital platforms',
-    href: '/contact', // change to the new page once it exists
+    href: '/web-development',
     tile: 'bg-[#7198A3] text-neutral-950',
     isNew: true,
   },

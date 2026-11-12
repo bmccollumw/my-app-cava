@@ -171,7 +171,7 @@ export default function StaffingOverviewPage() {
             <span className="text-[#F1CF9D]">Let&apos;s talk.</span>
           </h2>
           <Link
-            href="/contact"
+            href="/contact?topic=public-sector"
             className="relative z-10 shrink-0 bg-[#F1CF9D] px-[34px] py-[18px] text-[17px] font-semibold text-[#2C3A40] transition-colors duration-300 hover:bg-white"
           >
             Contact us →

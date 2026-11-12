@@ -21,19 +21,56 @@ const NAV: NavItem[] = [
   },
   { label: 'strategic communications', href: '/strategic-communications' },
   { label: 'diversity outreach', href: '/diversity-outreach' },
+  { label: 'web development', href: '/web-development' },
   { label: 'about', href: '/about' },
   { label: 'contact', href: '/contact' },
 ]
 
 const CERTS = ['acdbe', 'mbe', 'w/dbe', 'hub']
 
+// Hover underlines (kept outside the menu so React doesn't rebuild them each render)
+const Underline = () => (
+  <span
+    aria-hidden="true"
+    className={cn(
+      'absolute bottom-0 left-0 h-[2px] w-0 bg-[#9E4A46]',
+      'opacity-0',
+      'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+      'group-hover:w-full group-hover:opacity-100',
+      'group-focus-visible:w-full group-focus-visible:opacity-100'
+    )}
+  />
+)
+
+const UnderlineWhite = () => (
+  <span
+    aria-hidden="true"
+    className={cn(
+      'absolute bottom-0 left-0 h-[2px] w-0 bg-white',
+      'opacity-0',
+      'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+      'group-hover:w-full group-hover:opacity-100',
+      'group-focus-visible:w-full group-focus-visible:opacity-100'
+    )}
+  />
+)
+
 export default function TopBarRightMenu() {
   const [open, setOpen] = useState(false)
   const [jvpOpen, setJvpOpen] = useState(false)
 
+  // Closing the menu also folds the partnerships submenu back up
+  const closeMenu = () => {
+    setOpen(false)
+    setJvpOpen(false)
+  }
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false)
+      if (e.key === 'Escape') {
+        setOpen(false)
+        setJvpOpen(false)
+      }
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -43,36 +80,6 @@ export default function TopBarRightMenu() {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [open])
-
-  useEffect(() => {
-    if (!open) setJvpOpen(false)
-  }, [open])
-
-  const Underline = () => (
-    <span
-      aria-hidden="true"
-      className={cn(
-        'absolute bottom-0 left-0 h-[2px] w-0 bg-[#9E4A46]',
-        'opacity-0',
-        'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
-        'group-hover:w-full group-hover:opacity-100',
-        'group-focus-visible:w-full group-focus-visible:opacity-100'
-      )}
-    />
-  )
-
-  const UnderlineWhite = () => (
-    <span
-      aria-hidden="true"
-      className={cn(
-        'absolute bottom-0 left-0 h-[2px] w-0 bg-white',
-        'opacity-0',
-        'transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
-        'group-hover:w-full group-hover:opacity-100',
-        'group-focus-visible:w-full group-focus-visible:opacity-100'
-      )}
-    />
-  )
 
   return (
     <>
@@ -101,7 +108,7 @@ export default function TopBarRightMenu() {
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         )}
         aria-hidden="true"
-        onClick={() => setOpen(false)}
+        onClick={closeMenu}
       >
         <div className="absolute inset-0 bg-black/50" />
       </div>
@@ -121,7 +128,7 @@ export default function TopBarRightMenu() {
         <div className="fixed top-0 right-0 z-[110] p-6 sm:p-8">
           <button
             type="button"
-            onClick={() => setOpen(false)}
+            onClick={closeMenu}
             aria-label="Close menu"
             className="group relative pb-3 text-2xl md:text-3xl font-bold lowercase text-[#9E4A46]"
           >
@@ -171,7 +178,7 @@ export default function TopBarRightMenu() {
                                   <Link
                                     key={child.href}
                                     href={child.href}
-                                    onClick={() => setOpen(false)}
+                                    onClick={closeMenu}
                                     className="group relative inline-block w-fit pb-3 focus:outline-none"
                                   >
                                     <span className="block text-2xl md:text-3xl font-semibold tracking-tight text-[#9E4A46] transition-all duration-300 group-hover:opacity-70 group-hover:translate-x-1 group-hover:tracking-wide">
@@ -186,7 +193,7 @@ export default function TopBarRightMenu() {
                         ) : (
                           <Link
                             href={item.href!}
-                            onClick={() => setOpen(false)}
+                            onClick={closeMenu}
                             className="group relative inline-block pb-3 focus:outline-none"
                           >
                             <span className="block text-4xl md:text-5xl font-semibold tracking-tight text-[#9E4A46] transition-opacity group-hover:opacity-70">

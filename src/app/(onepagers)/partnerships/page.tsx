@@ -101,7 +101,7 @@ const PartnershipOverviewPage: FC = () => {
             </p>
 
             <Link
-              href="/contact"
+              href="/contact?topic=partnerships"
               className="relative z-10 inline-block bg-[#984E4A] px-8 py-[18px] text-[17px] font-medium text-white transition-colors duration-300 hover:bg-[#702B36]"
             >
               Partner on your next RFP →
@@ -188,7 +188,7 @@ const PartnershipOverviewPage: FC = () => {
                 regulated advertising environments, we welcome the opportunity
                 to collaborate. Contact us{' '}
                 <Link
-                  href="/contact"
+                  href="/contact?topic=partnerships"
                   className="relative z-10 underline underline-offset-4 decoration-white/50 hover:decoration-white transition-colors duration-300"
                 >
                   here
@@ -198,7 +198,7 @@ const PartnershipOverviewPage: FC = () => {
             </div>
 
             <Link
-              href="/contact"
+              href="/contact?topic=partnerships"
               className="relative z-10 shrink-0 bg-white px-[34px] py-[18px] text-[17px] font-medium text-neutral-900 transition-colors duration-300 hover:bg-neutral-200"
             >
               Contact us →

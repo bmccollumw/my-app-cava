@@ -250,7 +250,7 @@ function LogoBoard() {
         {/* 12th tile — call to action */}
         <li className="group aspect-[4/3] bg-[#456672]">
           <a
-            href="#advertise"
+            href="/contact?topic=airport"
             className="flex h-full w-full flex-col justify-between p-4 md:p-6 text-white transition-colors duration-500 hover:bg-[#2C3A40]"
           >
             <span className="text-[11px] md:text-xs font-semibold uppercase tracking-[0.2em] text-[#D7E1D9]">
@@ -299,7 +299,7 @@ export default function AirportAdvertisingOverviewPage() {
               Airport (HOU).
             </h1>
             <a
-              href="#advertise"
+              href="/contact?topic=airport"
               className="inline-block bg-[#456672] px-8 py-[18px] text-[17px] font-medium text-white transition-colors duration-300 hover:bg-[#2C3A40]"
             >
               Advertise at IAH &amp; HOU →
@@ -406,7 +406,7 @@ export default function AirportAdvertisingOverviewPage() {
           </div>
 
           <a
-            href="/contact"
+            href="/contact?topic=airport"
             className="relative z-10 shrink-0 bg-white px-[34px] py-[18px] text-[17px] font-medium text-neutral-900 transition-colors duration-300 hover:bg-[#D7E1D9]"
           >
             Contact us →

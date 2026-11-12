@@ -203,7 +203,7 @@ export default function DiversityOutreachPage() {
             <strong className="font-bold">Let&apos;s talk.</strong>
           </h2>
           <Link
-            href="/contact"
+            href="/contact?topic=diversity-outreach"
             className="relative z-10 shrink-0 bg-[#2C3A40] px-[34px] py-[18px] text-[17px] font-medium text-white transition-colors duration-300 hover:bg-black"
           >
             Contact us →
