@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import PageFadeIn from '@/components/PageFadeIn'
 import RevealSection from '@/components/RevealSection'
+import EdgeFade from '@/components/EdgeFade'
 
 const BG_IMAGE = '/airport.jpg'
 
@@ -47,8 +48,8 @@ const STATS = [
 ]
 
 const LOGOS = [
-  { src: '/client-1.png', alt: 'Tetra' },
-  { src: '/client-1.gif', alt: 'University of Houston' },
+  { src: '/client-1.png', alt: 'University of Houston' },
+  { src: '/client-1.gif', alt: 'Tetra' },
   { src: '/api.png', alt: 'American Petroleum Institute' },
   { src: '/britishint.png', alt: 'British International' },
   { src: '/client-7.png', alt: 'Harris County Texas' },
@@ -228,13 +229,20 @@ function LogoBoard() {
         {LOGOS.map((logo) => (
           <li
             key={logo.src}
-            className="group flex aspect-[4/3] items-center justify-center bg-white p-5 md:p-8"
+            className="group relative isolate flex aspect-[4/3] items-center justify-center bg-white p-5 md:p-8"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={logo.src}
               alt={logo.alt}
-              className={`max-h-full max-w-full object-contain transition-transform duration-700 ${EASE} motion-safe:group-hover:scale-105`}
+              className={`max-h-full max-w-full object-contain grayscale contrast-125 transition-[filter,transform] duration-700 ${EASE} group-hover:grayscale-0 group-hover:contrast-100 motion-safe:group-hover:scale-105`}
+            />
+
+            {/* Teal tint — dark parts of the logo turn brand teal, white stays white.
+                Fades away on hover to reveal the real colors. */}
+            <span
+              aria-hidden="true"
+              className={`pointer-events-none absolute inset-0 bg-[#456672] mix-blend-screen transition-opacity duration-700 ${EASE} group-hover:opacity-0`}
             />
           </li>
         ))}
@@ -265,6 +273,8 @@ function LogoBoard() {
 export default function AirportAdvertisingOverviewPage() {
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-black text-white">
+      <EdgeFade />
+
       {/* HERO — full-bleed photo, black panel covers bottom-left */}
       <div className="relative flex min-h-[100svh] flex-col justify-end md:min-h-[900px]">
         <div
@@ -298,8 +308,8 @@ export default function AirportAdvertisingOverviewPage() {
         </PageFadeIn>
       </div>
 
-      {/* STATS — board-style strip overlapping the photo */}
-      <PageFadeIn delay={300} className={`${BOX_WRAP} ${GUTTER_L} ${GUTTER_R} relative z-10 -mt-[72px]`}>
+      {/* STATS — board-style strip overlapping the photo; each cell turns teal on hover */}
+      <RevealSection className={`${BOX_WRAP} ${GUTTER_L} ${GUTTER_R} relative z-10 -mt-[72px]`}>
         <section
           aria-label="Airport statistics"
           className={`${BOX_HOVER} grid grid-cols-2 bg-white text-neutral-900 md:grid-cols-4`}
@@ -307,22 +317,23 @@ export default function AirportAdvertisingOverviewPage() {
           {STATS.map((s, i) => (
             <div
               key={s.value}
-              className={`px-6 py-8 md:px-8 md:py-9 border-neutral-200 ${
+              className={`group/stat px-6 py-8 md:px-8 md:py-9 border-neutral-200 transition-colors duration-500 ${EASE} hover:bg-[#456672] ${
                 i % 2 === 0 ? 'border-r' : ''
               } ${i < 2 ? 'border-b md:border-b-0' : ''} ${i === 1 ? 'md:border-r' : ''}`}
             >
-              <p className="mb-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
+              <p className={`mb-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500 transition-colors duration-500 ${EASE} group-hover/stat:text-[#D7E1D9]`}>
                 {s.label}
               </p>
-              <p className="text-5xl md:text-[64px] font-extrabold leading-none tracking-[-0.04em] text-[#456672]">
+              <p className={`text-5xl md:text-[64px] font-extrabold leading-none tracking-[-0.04em] text-[#456672] transition-colors duration-500 ${EASE} group-hover/stat:text-white`}>
                 {s.value}
               </p>
-              <p className="mt-2.5 text-base text-neutral-700">{s.caption}</p>
+              <p className={`mt-2.5 text-base text-neutral-700 transition-colors duration-500 ${EASE} group-hover/stat:text-white/90`}>
+                {s.caption}
+              </p>
             </div>
           ))}
-          <HoverLine />
         </section>
-      </PageFadeIn>
+      </RevealSection>
 
       {/* AUDIENCE + OPPORTUNITY — side-by-side click-down cards */}
       <RevealSection className={`${GUTTER_L} ${GUTTER_R} mt-24 md:mt-32`}>

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import PageFadeIn from '@/components/PageFadeIn'
+import EdgeFade from '@/components/EdgeFade'
 import RevealSection from '@/components/RevealSection'
 import type { FC } from 'react'
 
@@ -44,6 +44,8 @@ const HoverLine = ({ color = 'bg-[#984E4A]' }: { color?: string }) => (
 const PartnershipOverviewPage: FC = () => {
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-black text-white">
+      <EdgeFade />
+
       {/* Flat maroon panel (top of page only) */}
       <div
         aria-hidden="true"
@@ -65,8 +67,7 @@ const PartnershipOverviewPage: FC = () => {
 
       <div className="relative flex flex-col pt-32 md:pt-40 pb-32">
         {/* 1 — Who we are + certifications (loudest) — aligned to LEFT gutter */}
-        <PageFadeIn
-          delay={0}
+        <RevealSection
           className={`${BOX_WRAP} ${GUTTER_L} ${GUTTER_R} md:mr-0 self-stretch md:self-start md:w-[min(1100px,88%)]`}
         >
           <section className={`${BOX_HOVER} bg-white text-neutral-900 px-6 py-12 md:px-14 md:py-16`}>
@@ -108,7 +109,7 @@ const PartnershipOverviewPage: FC = () => {
 
             <HoverLine />
           </section>
-        </PageFadeIn>
+        </RevealSection>
 
         {/* 2 — Proof — aligned to RIGHT gutter */}
         <RevealSection
