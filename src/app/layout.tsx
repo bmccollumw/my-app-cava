@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: 'Cavazos',
-              url: 'https://www.thinkcava.com',
+              url: 'https://www.cavazos.co',
             }),
           }}
         />
